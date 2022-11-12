@@ -1,1 +1,3 @@
 console.log('Setup');
+
+export {};
