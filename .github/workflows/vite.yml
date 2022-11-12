@@ -19,7 +19,7 @@ jobs:
           node-version: "18.x"
       - run: npm i -g pnpm
       - run: pnpm install
-      - run: pnpm run build --base=/quiz-s24048/
+      - run: pnpm run build --base=/s24048/
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v3
         with:
