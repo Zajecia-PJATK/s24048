@@ -1,0 +1,29 @@
+name: Vite CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./quiz
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set-up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+      - run: npm i -g pnpm
+      - run: pnpm install
+      - run: pnpm run build
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v1
+        with:
+          target_branch: gh-pages
+          build_dir: quiz/dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
