@@ -19,7 +19,7 @@ jobs:
           node-version: "18.x"
       - run: npm i -g pnpm
       - run: pnpm install
-      - run: pnpm run build
+      - run: pnpm run build -- --base=/projekt-programistyczny-ElectroluxV2
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v1
         with:
