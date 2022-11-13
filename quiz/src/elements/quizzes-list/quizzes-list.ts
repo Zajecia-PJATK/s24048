@@ -4,6 +4,7 @@ import { Quiz } from '../../shared/quiz';
 import { ElementBuilder } from '../../shared/element-builder';
 import { QuizManager } from '../../shared/quiz-manager';
 import { WebComponent } from '../web-component';
+import { Attrs } from '../attrs';
 
 export class QuizzesList extends WebComponent {
     constructor() {
@@ -18,7 +19,7 @@ export class QuizzesList extends WebComponent {
         quizzes.forEach(QuizManager.save);
 
         const quizzesListItems = quizzes
-            .map(quiz => new QuizPreview().setQuizId(quiz.id));
+            .map(quiz => new QuizPreview().setAttr(Attrs.quizId, quiz.id));
 
         this
             .addChild(ElementBuilder

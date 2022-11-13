@@ -10,17 +10,10 @@ export class QuizPreview extends WebComponent {
     public static readonly observedAttributes = [Attrs.quizId];
     private quiz?: Quiz;
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) return;
-
-        switch (attr) {
-            case Attrs.quizId: return this.onQuizIdChange(parseInt(newValue));
-        }
-    }
-
-    public setQuizId(quizId: number): QuizPreview {
-        this.setAttribute(Attrs.quizId, `${quizId}`);
-        return this;
+    constructor() {
+        super();
+        this
+            .setAttributeHandler(Attrs.quizId, v => this.onQuizIdChange(parseInt(v)));
     }
 
     private onQuizIdChange(quizId: number) {
