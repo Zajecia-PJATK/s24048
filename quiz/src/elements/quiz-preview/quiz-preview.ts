@@ -1,12 +1,12 @@
-import './quizzes-list-item.scss';
-import { ElementBuilder } from '../../../shared/element-builder';
-import { Quiz } from '../../../shared/quiz';
-import { QuizManager } from '../../../shared/quiz-manager';
-import { WebComponent } from '../../web-component';
-import { NavigationManager } from '../../../shared/navigation-manager';
+import './quiz-preview.scss';
+import { ElementBuilder } from '../../shared/element-builder';
+import { Quiz } from '../../shared/quiz';
+import { QuizManager } from '../../shared/quiz-manager';
+import { WebComponent } from '../web-component';
+import { NavigationManager } from '../../shared/navigation-manager';
 
 export const quizIdAttr = 'quizid';
-export class QuizzesListItem extends WebComponent {
+export class QuizPreview extends WebComponent {
     public static readonly observedAttributes = [quizIdAttr];
     private quiz?: Quiz;
 
@@ -18,7 +18,7 @@ export class QuizzesListItem extends WebComponent {
         }
     }
 
-    public setQuizId(quizId: number): QuizzesListItem {
+    public setQuizId(quizId: number): QuizPreview {
         this.setAttribute(quizIdAttr, `${quizId}`);
         return this;
     }

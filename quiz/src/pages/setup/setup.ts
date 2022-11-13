@@ -1,3 +1,9 @@
-console.log('Setup');
+import { quizIdAttr, QuizPreview } from '../../elements/quiz-preview/quiz-preview';
+import { NavigationManager } from '../../shared/navigation-manager';
 
-export {};
+customElements.define('quiz-preview', QuizPreview);
+
+const quizPreview = document.querySelector('quiz-preview')!;
+const { quizId } = NavigationManager.params;
+
+quizPreview.setAttribute(quizIdAttr, quizId);

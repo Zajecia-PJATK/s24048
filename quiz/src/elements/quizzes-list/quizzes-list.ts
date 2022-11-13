@@ -1,5 +1,5 @@
 import './quizzes-list.scss';
-import { QuizzesListItem } from './quizzes-list-item/quizzes-list-item';
+import { QuizPreview } from '../quiz-preview/quiz-preview';
 import { Quiz } from '../../shared/quiz';
 import { ElementBuilder } from '../../shared/element-builder';
 import { QuizManager } from '../../shared/quiz-manager';
@@ -18,7 +18,7 @@ export class QuizzesList extends WebComponent {
         quizzes.forEach(QuizManager.save);
 
         const quizzesListItems = quizzes
-            .map(quiz => new QuizzesListItem().setQuizId(quiz.id));
+            .map(quiz => new QuizPreview().setQuizId(quiz.id));
 
         this
             .addChild(ElementBuilder

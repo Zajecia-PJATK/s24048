@@ -23,7 +23,7 @@
             <item index="4" class="java.lang.String" itemvalue="embed" />
             <item index="5" class="java.lang.String" itemvalue="script" />
             <item index="6" class="java.lang.String" itemvalue="quizzes-list" />
-            <item index="7" class="java.lang.String" itemvalue="quizzes-list-item" />
+            <item index="7" class="java.lang.String" itemvalue="quiz-preview" />
           </list>
         </value>
       </option>

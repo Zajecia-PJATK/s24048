@@ -1,5 +1,5 @@
 import { QuizzesList } from '../elements/quizzes-list/quizzes-list';
-import { QuizzesListItem } from '../elements/quizzes-list/quizzes-list-item/quizzes-list-item';
+import { QuizPreview } from '../elements/quiz-preview/quiz-preview';
 
-customElements.define('quizzes-list-item', QuizzesListItem);
+customElements.define('quiz-preview', QuizPreview);
 customElements.define('quizzes-list', QuizzesList);
