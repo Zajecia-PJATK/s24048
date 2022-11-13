@@ -2,9 +2,10 @@ import './quizzes-list-item.scss';
 import { ElementBuilder } from '../../../shared/element-builder';
 import { Quiz } from '../../../shared/quiz';
 import { QuizManager } from '../../../shared/quiz-manager';
+import { WebComponent } from '../../web-component';
 
 export const quizIdAttr = 'quizid';
-export class QuizzesListItem extends HTMLElement {
+export class QuizzesListItem extends WebComponent {
     public static readonly observedAttributes = [quizIdAttr];
     private quiz?: Quiz;
 
@@ -46,15 +47,10 @@ export class QuizzesListItem extends HTMLElement {
             .withText('Open')
             .build();
 
-        const article = ElementBuilder
-            .make('article')
-            .withClassName('quiz-list-item')
-            .withChild(title)
-            .withChild(description)
-            .withChild(openQuizButton)
-            .build();
-
-        this.innerHTML = '';
-        this.append(article);
+        this
+            .removeChildren()
+            .addChild(title)
+            .addChild(description)
+            .addChild(openQuizButton)
     }
 }

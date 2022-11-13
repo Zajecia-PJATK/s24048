@@ -3,8 +3,9 @@ import { QuizzesListItem } from './quizzes-list-item/quizzes-list-item';
 import { Quiz } from '../../shared/quiz';
 import { ElementBuilder } from '../../shared/element-builder';
 import { QuizManager } from '../../shared/quiz-manager';
+import { WebComponent } from '../web-component';
 
-export class QuizzesList extends HTMLElement {
+export class QuizzesList extends WebComponent {
     constructor() {
         super();
 
@@ -19,16 +20,12 @@ export class QuizzesList extends HTMLElement {
         const quizzesListItems = quizzes
             .map(quiz => new QuizzesListItem().setQuizId(quiz.id));
 
-        const ul = ElementBuilder
-            .make<HTMLUListElement>('ul')
-            .withChild(ElementBuilder
+        this
+            .addChild(ElementBuilder
                 .make('h2')
                 .withText('Quizzes:')
                 .build()
             )
-            .withChildren(quizzesListItems)
-            .build();
-
-        this.append(ul);
+            .addChildren(quizzesListItems);
     }
 }
