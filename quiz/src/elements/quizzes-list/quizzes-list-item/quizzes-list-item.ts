@@ -3,6 +3,7 @@ import { ElementBuilder } from '../../../shared/element-builder';
 import { Quiz } from '../../../shared/quiz';
 import { QuizManager } from '../../../shared/quiz-manager';
 import { WebComponent } from '../../web-component';
+import { NavigationManager } from '../../../shared/navigation-manager';
 
 export const quizIdAttr = 'quizid';
 export class QuizzesListItem extends WebComponent {
@@ -22,10 +23,6 @@ export class QuizzesListItem extends WebComponent {
         return this;
     }
 
-    public openQuizSetupPage(): void {
-        console.log(this.quiz);
-    }
-
     private onQuizIdChange(quizId: number) {
         this.quiz = QuizManager.read(quizId);
 
@@ -43,7 +40,7 @@ export class QuizzesListItem extends WebComponent {
 
         const openQuizButton = ElementBuilder
             .make<HTMLButtonElement>('button')
-            .withEventHandler('click', this.openQuizSetupPage.bind(this))
+            .withEventHandler('click', () => NavigationManager.openQuizSetupPage(this.quiz!.id))
             .withText('Open')
             .build();
 
