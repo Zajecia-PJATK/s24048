@@ -11,10 +11,14 @@ export class NavigationManager {
         this.navigateByUrl('setup', { quizId });
     }
 
-    private static navigateByUrl(relativeUrl: string, parameters: Record<string, string | number>): void {
+    public static getAbsoluteUrl(relativeUrl: string, parameters: Record<string, string | number> = {}): string {
         const absoluteUrl = `${location.origin}${NavigationManager.base}${relativeUrl}`;
         const encodedParams = encodeGetParams(parameters);
 
-        location.assign(`${absoluteUrl}/?${encodedParams}`);
+        return `${absoluteUrl}/?${encodedParams}`;
+    }
+
+    private static navigateByUrl(relativeUrl: string, parameters: Record<string, string | number>): void {
+        location.assign(this.getAbsoluteUrl(relativeUrl, parameters));
     }
 }

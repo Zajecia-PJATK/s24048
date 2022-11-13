@@ -17,6 +17,14 @@ export class QuizManager {
         return JSON.parse(value); // TODO: Add cache to save CPU on JSON parsing
     }
 
+    public static loadAll(): Quiz[] {
+        return Object
+            .keys(localStorage)
+            .filter(key => key.startsWith(this.quizKeyPrefix))
+            .map(quizKey => localStorage.getItem(quizKey)!)
+            .map(json => JSON.parse(json));
+    }
+
     private static getQuizStorageKey(quizId: number): string {
         return `${this.quizKeyPrefix}${quizId}`;
     }

@@ -39,9 +39,9 @@ export class ElementBuilder<T extends HTMLElement> {
         return new ElementBuilder(modified);
     }
 
-    public withValue(value: string): ElementBuilder<T> {
+    public withAttr(attr: string, value: string): ElementBuilder<T> {
         const modified = this.element;
-        modified.setAttribute('value', value);
+        modified.setAttribute(attr, value);
         return new ElementBuilder(modified);
     }
 }

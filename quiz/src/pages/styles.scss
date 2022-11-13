@@ -97,4 +97,31 @@ body {
   a {
     color: var(--secondary);
   }
+
+  .button {
+    display: inline-grid;
+    padding: 1em;
+    border-radius: 0.5em;
+    text-decoration: none;
+    background-color: var(--primary-light);
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      border-radius: 1.5em;
+      background-color: var(--secondary-10);
+    }
+  }
+
+  footer {
+    display: grid;
+    place-items: center;
+    padding: 1em;
+    margin: 2em -1em 0;
+    background-color: var(--secondary);
+
+    span.copy {
+      color: var(--primary);
+      font-weight: 800;
+    }
+  }
 }
