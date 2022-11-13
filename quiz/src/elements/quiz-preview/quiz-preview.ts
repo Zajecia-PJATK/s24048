@@ -4,22 +4,22 @@ import { Quiz } from '../../shared/quiz';
 import { QuizManager } from '../../shared/quiz-manager';
 import { WebComponent } from '../web-component';
 import { NavigationManager } from '../../shared/navigation-manager';
+import { Attrs } from '../attrs';
 
-export const quizIdAttr = 'quizid';
 export class QuizPreview extends WebComponent {
-    public static readonly observedAttributes = [quizIdAttr];
+    public static readonly observedAttributes = [Attrs.quizId];
     private quiz?: Quiz;
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
         if (oldValue === newValue) return;
 
         switch (attr) {
-            case quizIdAttr: return this.onQuizIdChange(parseInt(newValue));
+            case Attrs.quizId: return this.onQuizIdChange(parseInt(newValue));
         }
     }
 
     public setQuizId(quizId: number): QuizPreview {
-        this.setAttribute(quizIdAttr, `${quizId}`);
+        this.setAttribute(Attrs.quizId, `${quizId}`);
         return this;
     }
 
