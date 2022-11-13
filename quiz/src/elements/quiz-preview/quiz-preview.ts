@@ -32,8 +32,10 @@ export class QuizPreview extends WebComponent {
             .build();
 
         const openQuizButton = ElementBuilder
-            .make<HTMLButtonElement>('button')
-            .withEventHandler('click', () => NavigationManager.openQuizSetupPage(this.quiz!.id))
+            .make('a')
+            .withClassName('button')
+            .withClassName('not-rounded')
+            .withAttr('href', NavigationManager.getAbsoluteUrl('setup', {quizId}))
             .withText('Open')
             .build();
 

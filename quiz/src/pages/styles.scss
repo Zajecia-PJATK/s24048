@@ -101,14 +101,20 @@ body {
   .button {
     display: inline-grid;
     padding: 1em;
-    border-radius: 0.5em;
     text-decoration: none;
-    background-color: var(--primary-light);
+    background-color: var(--secondary);
+    color: var(--primary-dark);
     transition: all 0.4s ease-in-out;
+    &:not(.not-rounded) {
+      border-radius: 0.5em;
+    }
 
     &:hover {
-      border-radius: 1.5em;
-      background-color: var(--secondary-10);
+      background-color: var(--secondary-60);
+
+      &:not(.not-rounded) {
+        border-radius: 1.5em;
+      }
     }
   }
 
