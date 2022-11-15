@@ -81,7 +81,7 @@ body {
   padding: 1em;
   box-sizing: border-box;
   // noinspection CssInvalidPropertyValue
-  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: var(--primary-dark);
