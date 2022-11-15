@@ -41,18 +41,21 @@ export class ReactiveInput extends WebComponent {
                 .build()
             );
 
-        this.onInput(null!);
+        this.validateCurrentValue(); // Initially we have value from localstorage
+    }
+
+    private validateCurrentValue(): void {
+        this.dispatchEvent(new CustomEvent(ReactiveInput.stateChangeEventType, {
+            bubbles: true,
+            detail: {
+                valid: this.input!.value.trim() !== '' // TODO: Validate data e.g. required and type
+            }
+        }));
     }
 
     private onInput(_: InputEvent): void {
         const value = this.input!.value;
         localStorage.setItem(this.storagePath!, value);
-
-        this.dispatchEvent(new CustomEvent(ReactiveInput.stateChangeEventType, {
-            bubbles: true,
-            detail: {
-                valid: value.trim() !== '' // TODO: Validate data e.g. required and type
-            }
-        }));
+        this.validateCurrentValue();
     }
 }
