@@ -15,12 +15,9 @@ export class QuizPreview extends WebComponent {
     constructor() {
         super();
         this
-            .setAttributeHandler(Attrs.quizId, v => (this.quiz = QuizManager.read(parseInt(v))) && this.tryRender())
-            .setAttributeHandler(Attrs.type, v => (this.type = v) && this.tryRender())
-            .setAttributeHandler(Attrs.disabled, v => {
-                this.disabled = v == 'true';
-                this.tryRender();
-            })
+            .setAttributeHandler(Attrs.quizId, v => { this.quiz = QuizManager.read(parseInt(v)); this.tryRender() })
+            .setAttributeHandler(Attrs.type, v => { this.type = v; this.tryRender() })
+            .setAttributeHandler(Attrs.disabled, v => { this.disabled = v == 'true'; this.tryRender() });
     }
 
     private tryRender() {
