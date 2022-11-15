@@ -15,9 +15,9 @@ export class ElementBuilder<T extends HTMLElement> {
         return new ElementBuilder(modified);
     }
 
-    public withEventHandler(event: keyof HTMLElementEventMap, listener: () => void): ElementBuilder<T> {
+    public withEventHandler<E extends Event>(event: keyof HTMLElementEventMap, listener: (event: E) => void): ElementBuilder<T> {
         const modified = this.element;
-        modified.addEventListener(event, listener);
+        modified.addEventListener(event, listener as (ev: Event) => void);
         return new ElementBuilder(modified);
     }
 
@@ -42,6 +42,12 @@ export class ElementBuilder<T extends HTMLElement> {
     public withAttr(attr: string, value: string): ElementBuilder<T> {
         const modified = this.element;
         modified.setAttribute(attr, value);
+        return new ElementBuilder(modified);
+    }
+
+    public withoutAttr(attr: string): ElementBuilder<T> {
+        const modified = this.element;
+        modified.removeAttribute(attr);
         return new ElementBuilder(modified);
     }
 }

@@ -109,13 +109,25 @@ body {
       border-radius: 0.5em;
     }
 
-    &:hover {
+    &.disabled {
+      background-color: var(--secondary-30);
+      cursor: not-allowed;
+    }
+
+    &:hover:not(.disabled) {
       background-color: var(--secondary-60);
 
       &:not(.not-rounded) {
         border-radius: 1.5em;
       }
     }
+  }
+
+  section.responsive-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
   }
 
   footer {

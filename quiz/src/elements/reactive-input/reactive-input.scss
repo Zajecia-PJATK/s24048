@@ -1,0 +1,12 @@
+reactive-input {
+  label {
+    input {
+      margin-left: 0.5em;
+      padding: 0.2em;
+      border-radius: 0.5em;
+      border: 1px solid var(--secondary);
+      color: var(--secondary);
+      background-color: var(--primary-80);
+    }
+  }
+}

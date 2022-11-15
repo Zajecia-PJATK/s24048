@@ -1,3 +1,7 @@
 export enum Attrs {
-    quizId = 'quizid'
+    quizId = 'quizid',
+    label = 'label',
+    type = 'type',
+    storage = 'storage',
+    disabled = 'disabled',
 }

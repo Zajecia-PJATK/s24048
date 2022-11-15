@@ -12,9 +12,22 @@
 </head>
 <body>
 
-<h1>Setup</h1>
-<h2>You are going to attempt on quiz</h2>
-<quiz-preview></quiz-preview>
+<section class="responsive-wrapper">
+    <h1>You are going to attempt on quiz</h1>
+
+    <h2>Please enter your name.</h2>
+    <reactive-input
+            label="Name"
+            type="text"
+            storage="current.player.name"
+            required
+    ></reactive-input>
+
+    <quiz-preview
+            type="setup"
+            disabled="true"
+    ></quiz-preview>
+</section>
 
 </body>
 </html>
