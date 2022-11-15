@@ -40,7 +40,7 @@ export class QuizPreview extends WebComponent {
         const openQuizButton = ElementBuilder
             .make('a')
             .withClassName('button')
-            .withClassName('not-rounded')
+            .withClassName('square')
             .withAttr('href', NavigationManager.getAbsoluteUrl(this.type !== 'setup' ? 'setup' : 'question', {quizId: this.quiz!.id}))
             .withText(this.type === 'setup' ? 'Start' : 'Open');
 

@@ -1,12 +1,40 @@
 reactive-input {
+  &.narrow {
+    label {
+      flex-direction: column;
+    }
+  }
+
+  &.full-width {
+    label {
+
+      &, input, textarea {
+        width: 100%;
+      }
+    }
+  }
   label {
-    input {
-      margin-left: 0.5em;
+    display: inline-flex;
+    gap: 0.5em;
+    input, textarea {
+      display: inline-flex;
+      min-height: 24px;
       padding: 0.2em;
       border-radius: 0.5em;
       border: 1px solid var(--secondary);
       color: var(--secondary);
       background-color: var(--primary-80);
+    }
+
+    input {
+      display: grid;
+      align-items: center;
+    }
+
+    textarea {
+      resize: none;
+      white-space: pre-wrap;
+      overflow: hidden;
     }
   }
 }

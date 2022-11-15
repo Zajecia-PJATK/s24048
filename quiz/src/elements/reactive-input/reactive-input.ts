@@ -8,7 +8,7 @@ export class ReactiveInput extends WebComponent {
     public static readonly observedAttributes = [Attrs.storage, Attrs.label, Attrs.type];
     private label?: string;
     private type?: string;
-    private input?: HTMLInputElement;
+    private input?: HTMLInputElement | HTMLTextAreaElement;
     private storagePath?: string;
 
     constructor() {
@@ -25,10 +25,21 @@ export class ReactiveInput extends WebComponent {
     }
 
     private render(): void {
-        this.input = ElementBuilder
-            .make<HTMLInputElement>('input')
-            .withAttr('type', this.type!)
-            .withAttr('value', localStorage.getItem(this.storagePath!) ?? '')
+        const savedValue = decodeURI(localStorage.getItem(this.storagePath!) ?? '');
+        let tmpInput;
+
+        if (this.type === 'textarea') {
+            tmpInput = ElementBuilder
+                .make<HTMLTextAreaElement>('textarea')
+                .withHtml(savedValue)
+        } else {
+            tmpInput = ElementBuilder
+                .make<HTMLInputElement>('input')
+                .withAttr('type', this.type!)
+                .withAttr('value', savedValue);
+        }
+
+        this.input = tmpInput
             .withEventHandler('input', this.onInput.bind(this))
             .build();
 
@@ -41,7 +52,15 @@ export class ReactiveInput extends WebComponent {
                 .build()
             );
 
+        queueMicrotask(() => this.resizeTextArea()); // Render first, then change height
         this.validateCurrentValue(); // Initially we have value from localstorage
+    }
+
+    private onInput(_: InputEvent): void {
+        const value = this.input!.value;
+        localStorage.setItem(this.storagePath!, encodeURI(value));
+        this.type === 'textarea' && this.resizeTextArea();
+        this.validateCurrentValue();
     }
 
     private validateCurrentValue(): void {
@@ -53,9 +72,8 @@ export class ReactiveInput extends WebComponent {
         }));
     }
 
-    private onInput(_: InputEvent): void {
-        const value = this.input!.value;
-        localStorage.setItem(this.storagePath!, value);
-        this.validateCurrentValue();
+    private resizeTextArea(): void {
+        this.input!.style.height = `0px`;
+        this.input!.style.height = `${this.input!.scrollHeight}px`;
     }
 }

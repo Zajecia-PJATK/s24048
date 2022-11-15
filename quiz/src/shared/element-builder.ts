@@ -50,4 +50,10 @@ export class ElementBuilder<T extends HTMLElement> {
         modified.removeAttribute(attr);
         return new ElementBuilder(modified);
     }
+
+    public withHtml(html: string): ElementBuilder<T> {
+        const modified = this.element;
+        modified.innerHTML = html;
+        return new ElementBuilder(modified);
+    }
 }

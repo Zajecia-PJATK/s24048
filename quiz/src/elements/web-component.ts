@@ -24,6 +24,11 @@ export abstract class WebComponent extends HTMLElement {
         return this;
     }
 
+    public addClass(className: string) {
+        this.classList.add(className);
+        return this;
+    }
+
     public setAttributeHandler(attr: Attrs, handler: (value: string) => void): WebComponent {
         this.attributeHandlers[attr] = handler;
         return this;

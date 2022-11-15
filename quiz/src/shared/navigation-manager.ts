@@ -18,7 +18,11 @@ export class NavigationManager {
         return `${absoluteUrl}/?${encodedParams}`;
     }
 
-    private static navigateByUrl(relativeUrl: string, parameters: Record<string, string | number>): void {
+    public static navigateByUrl(relativeUrl: string, parameters: Record<string, string | number>): void {
         location.assign(this.getAbsoluteUrl(relativeUrl, parameters));
+    }
+
+    public static goToHome(): void {
+        location.assign(`${location.origin}${NavigationManager.base}`)
     }
 }

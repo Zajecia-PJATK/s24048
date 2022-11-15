@@ -75,6 +75,10 @@ body {
   font-style: normal;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: QuizRegular, serif;
   margin: 0;
@@ -100,13 +104,20 @@ body {
 
   .button {
     display: inline-grid;
+    place-items: center;
     padding: 1em;
     text-decoration: none;
     background-color: var(--secondary);
     color: var(--primary-dark);
     transition: all 0.4s ease-in-out;
-    &:not(.not-rounded) {
+
+    &:not(.square) {
       border-radius: 0.5em;
+    }
+
+    &.square {
+      max-width: 70px;
+      aspect-ratio: 1 / 1;
     }
 
     &.disabled {
@@ -117,7 +128,7 @@ body {
     &:hover:not(.disabled) {
       background-color: var(--secondary-60);
 
-      &:not(.not-rounded) {
+      &:not(.square) {
         border-radius: 1.5em;
       }
     }
