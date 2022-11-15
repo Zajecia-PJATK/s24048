@@ -69,14 +69,14 @@ body {
 @font-face {
   font-family: 'QuizRegular';
   // noinspection CssUnknownTarget
-  src: url('/JetBrainsMono-VariableFont_wght.ttf');
+  src: url('./../../public/JetBrainsMono-VariableFont_wght.ttf');
   font-weight: 125 950;
   font-stretch: 75% 125%;
   font-style: normal;
 }
 
 body {
-  font-family: CanvaRegular, serif;
+  font-family: QuizRegular, serif;
   margin: 0;
   padding: 1em;
   box-sizing: border-box;
