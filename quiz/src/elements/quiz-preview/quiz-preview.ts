@@ -21,7 +21,7 @@ export class QuizPreview extends WebComponent {
     }
 
     private tryRender() {
-        !!this.type && !!this.quiz && this.render();
+        !!this.quiz && this.render();
     }
 
     private render() {
