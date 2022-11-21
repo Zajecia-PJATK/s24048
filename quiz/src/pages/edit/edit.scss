@@ -4,3 +4,31 @@ form.full-width {
   flex-direction: column;
   gap: 1em;
 }
+
+.add-question {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.5em;
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+  background-color: var(--primary-80);
+  min-height: 24px;
+
+  * {
+    flex-grow: 1;
+    border: none;
+  }
+
+  select {
+    background-color: transparent;
+    color: var(--secondary);
+  }
+
+  button {
+    background-color: var(--secondary);
+    color: var(--primary-dark);
+    padding: 0;
+  }
+}
