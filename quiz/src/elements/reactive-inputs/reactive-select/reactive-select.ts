@@ -1,7 +1,7 @@
 import './reactive-select.scss';
-import { WebComponent } from '../../web-component';
 import { Attrs } from '../../attrs';
 import { ElementBuilder } from '../../../shared/element-builder';
+import { StateFullWebComponent } from '../../state-full-web-component';
 
 export interface ReactiveSelectOption {
     value: string;
@@ -14,7 +14,7 @@ export interface ReactiveSelectState {
     options: ReactiveSelectOption[];
 }
 
-export class ReactiveSelect extends WebComponent {
+export class ReactiveSelect extends StateFullWebComponent {
     public static readonly buttonClickedEventType = 'reactive-select-button-clicked';
     public static readonly observedAttributes = [Attrs.storage, Attrs.type];
     private storagePath?: string;

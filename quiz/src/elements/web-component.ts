@@ -4,8 +4,6 @@ export abstract class WebComponent extends HTMLElement {
     // TODO: This record might have stricter typing, allow only Attr
     public attributeHandlers: Record<string, (value: string) => void> = {};
 
-    public abstract updateState<T>(changes: Partial<T>): void;
-
     public setEventHandler<E extends Event | CustomEvent>(event: keyof HTMLElementEventMap | string, listener: (event: E) => void): WebComponent {
         this.addEventListener(event, listener as (ev: Event) => void);
         return this;

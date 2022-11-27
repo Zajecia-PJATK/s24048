@@ -65,7 +65,7 @@ const addQuestionSelect = new ReactiveSelect()
         const instance = getQuestionComponentInstance(Number(selectedOption.value) as QuestionType);
         questions.push(instance);
         render();
-    });
+    }) as ReactiveSelect;
 
 addQuestionSelect.updateState(addQuestionSelectState);
 
