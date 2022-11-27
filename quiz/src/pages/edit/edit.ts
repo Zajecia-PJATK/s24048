@@ -4,12 +4,18 @@ import { ReactiveInput } from '../../elements/reactive-input/reactive-input';
 import { Attrs } from '../../elements/attrs';
 import { Quiz } from '../../shared/quiz';
 import { QuizManager } from '../../shared/quiz-manager';
-import { getQuestionTypeName, QuestionType } from '../../shared/question-type';
+import { getQuestionComponentInstance, getQuestionTypeName, QuestionType } from '../../shared/question-type';
 import { QuizQuestion } from '../../elements/quiz-question/quiz-question';
 import { SingleChoiceQuestion } from '../../elements/quiz-question/single-choice-question/single-choice-question';
+import {
+    ReactiveSelect,
+    ReactiveSelectOption,
+    ReactiveSelectState,
+} from '../../elements/reactive-inputs/reactive-select/reactive-select';
 
 customElements.define('reactive-input', ReactiveInput);
 customElements.define('single-choice-question', SingleChoiceQuestion);
+customElements.define('reactive-select', ReactiveSelect);
 
 const section = document.querySelector('section')!;
 
@@ -39,36 +45,35 @@ const submit = ElementBuilder
     .withText('Add')
     .build();
 
-const questionTypeSelectOptions = Object
-    .keys(QuestionType)
-    .map(Number)
-    .filter(v => !isNaN(v))
-    .map(v => ElementBuilder
-        .make('option')
-        .withAttr('value', String(v))
-        .withText(getQuestionTypeName(v))
-        .build()
-    );
+const addQuestionSelectState: ReactiveSelectState = {
+    name: 'add-question',
+    options: Object
+        .keys(QuestionType)
+        .map(Number)
+        .filter(v => !isNaN(v))
+        .map(v => ({
+            text: getQuestionTypeName(v),
+            value: String(v),
+        })),
+};
+
+const addQuestionSelect = new ReactiveSelect()
+    .setAttr(Attrs.type, 'with-button')
+    .setAttr(Attrs.storage, 'current.quiz.edit.question.type')
+    .setEventHandler(ReactiveSelect.buttonClickedEventType, (event: CustomEvent) => {
+        const selectedOption: ReactiveSelectOption = event.detail.value;
+        const instance = getQuestionComponentInstance(Number(selectedOption.value) as QuestionType);
+        questions.push(instance);
+        render();
+    });
+
+addQuestionSelect.updateState(addQuestionSelectState);
 
 const questions: QuizQuestion[] = [];
 const addQuestionSection = ElementBuilder
     .make('section')
     .withClassName('add-question')
-    .withChild(ElementBuilder
-        .make('select')
-        .withChildren(questionTypeSelectOptions)
-        .build()
-    )
-    .withChild(ElementBuilder
-        .make('button')
-        .withText('Add question')
-        .withEventHandler('click', event => {
-            event.preventDefault();
-            questions.push(new SingleChoiceQuestion());
-            render();
-        })
-        .build()
-    )
+    .withChild(addQuestionSelect)
     .build();
 
 const render = () => {

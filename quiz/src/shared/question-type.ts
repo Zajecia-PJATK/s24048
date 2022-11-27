@@ -1,3 +1,6 @@
+import { QuizQuestion } from '../elements/quiz-question/quiz-question';
+import { SingleChoiceQuestion } from '../elements/quiz-question/single-choice-question/single-choice-question';
+
 export enum QuestionType {
     singleChoice,
     multipleChoice,
@@ -21,3 +24,24 @@ export const getQuestionTypeName = (type: QuestionType): string => {
         case QuestionType.matchElements: return 'Match elements';
     }
 };
+
+export const getQuestionComponentInstance = (type: QuestionType): QuizQuestion => {
+    switch (type) {
+        case QuestionType.singleChoice:
+            return new SingleChoiceQuestion();
+        case QuestionType.multipleChoice:
+            return new SingleChoiceQuestion();
+        case QuestionType.trueFalse:
+            return new SingleChoiceQuestion();
+        case QuestionType.shortAnswer:
+            return new SingleChoiceQuestion();
+        case QuestionType.chooseFromList:
+            return new SingleChoiceQuestion();
+        case QuestionType.fillGaps:
+            return new SingleChoiceQuestion();
+        case QuestionType.sortElements:
+            return new SingleChoiceQuestion();
+        case QuestionType.matchElements:
+            return new SingleChoiceQuestion();
+    }
+}

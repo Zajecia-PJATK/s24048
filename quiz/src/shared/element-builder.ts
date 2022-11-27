@@ -56,4 +56,10 @@ export class ElementBuilder<T extends HTMLElement> {
         modified.innerHTML = html;
         return new ElementBuilder(modified);
     }
+
+    public onlyIf(condition: boolean, callback: (element: ElementBuilder<T>) => ElementBuilder<T>): ElementBuilder<T> {
+        if (!condition) return this;
+
+        return callback(new ElementBuilder(this.element));
+    }
 }
