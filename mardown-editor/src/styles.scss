@@ -117,8 +117,12 @@ body {
     gap: 16px;
     padding: 16px 0;
     height: 100dvh;
-    grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
     align-items: stretch;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+
+    @media (min-width: 1024px) {
+      grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
+    }
 
     reactive-textarea:nth-of-type(1) {
       grid-row: 1 / span 2;
