@@ -7,11 +7,7 @@ import { QuizManager } from '../../shared/quiz-manager';
 import { getQuestionComponentInstance, getQuestionTypeName, QuestionType } from '../../shared/question-type';
 import { QuizQuestion } from '../../elements/quiz-question/quiz-question';
 import { SingleChoiceQuestion } from '../../elements/quiz-question/single-choice-question/single-choice-question';
-import {
-    ReactiveSelect,
-    ReactiveSelectOption,
-    ReactiveSelectState,
-} from '../../elements/reactive-inputs/reactive-select/reactive-select';
+import { ReactiveSelect, ReactiveSelectOption } from '../../elements/reactive-inputs/reactive-select/reactive-select';
 
 customElements.define('reactive-input', ReactiveInput);
 customElements.define('single-choice-question', SingleChoiceQuestion);
@@ -21,7 +17,7 @@ const section = document.querySelector('section')!;
 
 const h1 = ElementBuilder
     .make('h1')
-    .withText(NavigationManager.params['new'] !== null ? 'Create quiz' : 'Edit quiz')
+    .withText(NavigationManager.params['new'] != null ? 'Create quiz' : 'Edit quiz')
     .build();
 
 const titleInput = new ReactiveInput()
@@ -45,18 +41,6 @@ const submit = ElementBuilder
     .withText('Add')
     .build();
 
-const addQuestionSelectState: ReactiveSelectState = {
-    name: 'add-question',
-    options: Object
-        .keys(QuestionType)
-        .map(Number)
-        .filter(v => !isNaN(v))
-        .map(v => ({
-            text: getQuestionTypeName(v),
-            value: String(v),
-        })),
-};
-
 const addQuestionSelect = new ReactiveSelect()
     .setAttr(Attrs.type, 'with-button')
     .setAttr(Attrs.storage, 'current.quiz.edit.question.type')
@@ -67,7 +51,17 @@ const addQuestionSelect = new ReactiveSelect()
         render();
     }) as ReactiveSelect;
 
-addQuestionSelect.updateState(addQuestionSelectState);
+addQuestionSelect.updateState({
+    name: 'add-question',
+    options: Object
+        .keys(QuestionType)
+        .map(Number)
+        .filter(v => !isNaN(v))
+        .map(v => ({
+            text: getQuestionTypeName(v),
+            value: String(v),
+        })),
+});
 
 const questions: QuizQuestion[] = [];
 const addQuestionSection = ElementBuilder

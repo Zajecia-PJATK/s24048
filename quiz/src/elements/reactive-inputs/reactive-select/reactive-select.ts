@@ -30,21 +30,23 @@ export class ReactiveSelect extends StateFullWebComponent {
 
     public updateState(changes: Partial<ReactiveSelectState>): void {
         const current = this.state;
-        Object.assign(current, changes);
+        const newState = Object.assign({}, current, changes);
+        const json = JSON.stringify(newState);
+        sessionStorage.setItem(this.storagePath!, json);
     }
 
-    public get state(): ReactiveSelectState {
+    public get state(): ReactiveSelectState | undefined {
         const json = sessionStorage.getItem(this.storagePath!);
         return JSON.parse(json!);
     }
 
     public get value(): ReactiveSelectOption {
-        const state = this.state;
+        const state = this.state!;
         return state.options.find(option => option.value === state.selected)!;
     }
 
     public get options(): ReactiveSelectOption[] {
-        return this.state.options;
+        return this.state!.options ?? [];
     }
 
     private tryRender() {
@@ -52,7 +54,7 @@ export class ReactiveSelect extends StateFullWebComponent {
     }
 
     private render() {
-        const currentState = this.state;
+        const currentState = this.state!;
 
         this
             .removeChildren()
@@ -69,7 +71,7 @@ export class ReactiveSelect extends StateFullWebComponent {
                 )
                 .withEventHandler('change', event => {
                     const select = event.target as HTMLSelectElement;
-                    const modifiedState = this.state;
+                    const modifiedState = this.state!;
 
                     modifiedState.selected = select.value;
                     sessionStorage.setItem(this.storagePath!, JSON.stringify(modifiedState));
