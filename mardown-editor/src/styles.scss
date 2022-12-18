@@ -95,6 +95,11 @@ body {
   color: var(--secondary-light);
   tab-size: 3;
 
+  ::selection {
+    background: var(--secondary-warm);
+    color: var(--primary-cold);
+  }
+
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 1,
     'wght' 700,
@@ -128,10 +133,12 @@ body {
       flex-direction: column;
       gap: 0.5em;
       section#live {
+        background-color: var(--primary-80);
         height: 100%;
         overflow: auto;
         border-radius: 0.5em;
         border: 1px solid var(--secondary);
+        padding: 0.5em;
       }
     }
   }

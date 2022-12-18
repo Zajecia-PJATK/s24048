@@ -9,16 +9,18 @@ reactive-textarea {
     textarea {
       display: inline-flex;
       height: 100%;
-      padding: 0.2em;
+      padding: 0.5em;
       border-radius: 0.5em;
-      border: 1px solid var(--secondary);
+      outline: 2px solid var(--secondary-50);
+      border: none;
       color: var(--secondary);
       background-color: var(--primary-80);
-    }
-
-    textarea {
       resize: none;
       white-space: pre-wrap;
+
+      &:focus {
+        outline: 2px dashed var(--secondary-50);
+      }
     }
   }
 }
