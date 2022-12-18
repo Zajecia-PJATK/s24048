@@ -1,6 +1,7 @@
 import './reactive-textarea.scss';
 
 export class ReactiveTextarea extends HTMLElement {
+    private static readonly TAB = '\t';
     private child: HTMLTextAreaElement;
 
     constructor() {
@@ -12,6 +13,8 @@ export class ReactiveTextarea extends HTMLElement {
 
         this.child = textarea;
         this.child.addEventListener('input', this.resize.bind(this));
+
+        this.setupTab();
 
         if (!this.hasAttribute('save')) { return; }
         const key = this.getAttribute('save');
@@ -26,8 +29,22 @@ export class ReactiveTextarea extends HTMLElement {
         this.child.addEventListener('input', () => sessionStorage.setItem(key, this.child.value));
     }
 
-    private resize() {
+    private resize(): void {
         this.child.style.height = '0';
         this.child.style.height = `${this.child.scrollHeight}px`;
+    }
+
+    private setupTab(): void {
+        this.child.addEventListener('keydown', event => {
+            if (event.key !== 'Tab') { return; }
+            event.preventDefault();
+
+            const before = this.child.value;
+            const selectionStart = this.child.selectionStart;
+            this.child.value = before.substring(0, selectionStart) + ReactiveTextarea.TAB + before.substring(selectionStart);
+
+            this.child.selectionStart = selectionStart + 1;
+            this.child.selectionEnd = this.child.selectionStart;
+        });
     }
 }
