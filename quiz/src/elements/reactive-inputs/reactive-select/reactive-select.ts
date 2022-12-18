@@ -14,30 +14,16 @@ export interface ReactiveSelectState {
     options: ReactiveSelectOption[];
 }
 
-export class ReactiveSelect extends StateFullWebComponent {
+export class ReactiveSelect extends StateFullWebComponent<ReactiveSelectState> {
     public static readonly buttonClickedEventType = 'reactive-select-button-clicked';
-    public static readonly observedAttributes = [Attrs.storage, Attrs.type];
-    private storagePath?: string;
+    public static readonly observedAttributes = [Attrs.type];
     private type = 'normal';
 
     constructor() {
         super();
 
         this
-            .setAttributeHandler(Attrs.storage, v => { this.storagePath = v; this.tryRender() })
             .setAttributeHandler(Attrs.type, v => { this.type = v; this.tryRender() });
-    }
-
-    public updateState(changes: Partial<ReactiveSelectState>): void {
-        const current = this.state;
-        const newState = Object.assign({}, current, changes);
-        const json = JSON.stringify(newState);
-        sessionStorage.setItem(this.storagePath!, json);
-    }
-
-    public get state(): ReactiveSelectState | undefined {
-        const json = sessionStorage.getItem(this.storagePath!);
-        return JSON.parse(json!);
     }
 
     public get value(): ReactiveSelectOption {
@@ -45,36 +31,28 @@ export class ReactiveSelect extends StateFullWebComponent {
         return state.options.find(option => option.value === state.selected)!;
     }
 
-    public get options(): ReactiveSelectOption[] {
-        return this.state!.options ?? [];
-    }
-
     private tryRender() {
-        !!this.storagePath && !!this.type && this.render();
+        !!this.type && this.render();
     }
 
-    private render() {
-        const currentState = this.state!;
-
+    protected render() {
         this
             .removeChildren()
             .addChild(ElementBuilder
                 .make('select')
-                .withChildren(this.options
+                .onlyIf(this.type === 'multiple', e => e.withAttr('multiple', ''))
+                .withChildren(this.state?.options
                     .map(option => ElementBuilder
                         .make('option')
                         .withText(option.text)
                         .withAttr('value', option.value)
-                        .onlyIf(option.value === currentState.selected, option => option.withAttr('selected', ''))
+                        .onlyIf(option.value === this.state!.selected, option => option.withAttr('selected', ''))
                         .build()
                     )
                 )
                 .withEventHandler('change', event => {
                     const select = event.target as HTMLSelectElement;
-                    const modifiedState = this.state!;
-
-                    modifiedState.selected = select.value;
-                    sessionStorage.setItem(this.storagePath!, JSON.stringify(modifiedState));
+                    this.state!.selected = select.value;
                 })
                 .build()
             );

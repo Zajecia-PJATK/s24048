@@ -24,9 +24,9 @@ export abstract class WebComponent extends HTMLElement {
         return this;
     }
 
-    public setAttr(attr: Attrs, value: string | number): WebComponent {
+    public setAttr<T = WebComponent>(attr: Attrs, value: string | number): T {
         this.setAttribute(attr, `${value}`);
-        return this;
+        return this as T;
     }
 
     public addClass(className: string) {

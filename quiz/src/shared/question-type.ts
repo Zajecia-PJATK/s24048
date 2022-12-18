@@ -1,5 +1,6 @@
 import { QuizQuestion } from '../elements/quiz-question/quiz-question';
 import { SingleChoiceQuestion } from '../elements/quiz-question/single-choice-question/single-choice-question';
+import { MultipleChoiceQuestion } from '../elements/quiz-question/multiple-choice-question/multiple-choice-question';
 
 export enum QuestionType {
     singleChoice,
@@ -30,7 +31,7 @@ export const getQuestionComponentInstance = (type: QuestionType): QuizQuestion =
         case QuestionType.singleChoice:
             return new SingleChoiceQuestion();
         case QuestionType.multipleChoice:
-            return new SingleChoiceQuestion();
+            return new MultipleChoiceQuestion();
         case QuestionType.trueFalse:
             return new SingleChoiceQuestion();
         case QuestionType.shortAnswer:

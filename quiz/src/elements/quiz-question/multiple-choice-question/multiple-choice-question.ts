@@ -1,29 +1,28 @@
 import { QuizQuestion } from '../quiz-question';
-import { ElementBuilder } from '../../../shared/element-builder';
 import { Question } from '../../../shared/question';
+import { QuizManager } from '../../../shared/quiz-manager';
 import { QuestionType } from '../../../shared/question-type';
 import { ReactiveSelect } from '../../reactive-inputs/reactive-select/reactive-select';
 import { Attrs } from '../../attrs';
-import { QuizManager } from '../../../shared/quiz-manager';
+import { ElementBuilder } from '../../../shared/element-builder';
 
-export class SingleChoiceQuestion extends QuizQuestion {
+export class MultipleChoiceQuestion extends QuizQuestion {
     protected readonly question: Question = {
         id: QuizManager.nextQuizId,
         shuffle: false,
         time: 0,
         type: QuestionType.singleChoice,
-        text: 'How long is giraffe?',
-        options: ['21.37 cm', '1m', '0m'],
+        text: 'Select positive colors',
+        options: ['black', 'red', 'green', 'blue'],
         correct: ['1m'],
     };
 
     protected render(): void {
         const answerSelect = new ReactiveSelect()
+            .setAttr<ReactiveSelect>(Attrs.type, 'multiple')
             .withInitialState({
                 options: this.question.options.map(v => ({text: v, value: v}))
             });
-
-        answerSelect.try
 
         this.append(
             ElementBuilder
@@ -33,5 +32,4 @@ export class SingleChoiceQuestion extends QuizQuestion {
             answerSelect
         )
     }
-
 }

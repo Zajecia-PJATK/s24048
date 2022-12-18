@@ -8,9 +8,11 @@ import { getQuestionComponentInstance, getQuestionTypeName, QuestionType } from 
 import { QuizQuestion } from '../../elements/quiz-question/quiz-question';
 import { SingleChoiceQuestion } from '../../elements/quiz-question/single-choice-question/single-choice-question';
 import { ReactiveSelect, ReactiveSelectOption } from '../../elements/reactive-inputs/reactive-select/reactive-select';
+import { MultipleChoiceQuestion } from '../../elements/quiz-question/multiple-choice-question/multiple-choice-question';
 
 customElements.define('reactive-input', ReactiveInput);
 customElements.define('single-choice-question', SingleChoiceQuestion);
+customElements.define('multiple-choice-question', MultipleChoiceQuestion);
 customElements.define('reactive-select', ReactiveSelect);
 
 const section = document.querySelector('section')!;
@@ -42,6 +44,18 @@ const submit = ElementBuilder
     .build();
 
 const addQuestionSelect = new ReactiveSelect()
+    .withInitialState({
+        name: 'add-question',
+        selected: QuestionType.singleChoice.toString(),
+        options: Object
+            .keys(QuestionType)
+            .map(Number)
+            .filter(v => !isNaN(v))
+            .map(v => ({
+                text: getQuestionTypeName(v),
+                value: String(v),
+            })),
+    })
     .setAttr(Attrs.type, 'with-button')
     .setAttr(Attrs.storage, 'current.quiz.edit.question.type')
     .setEventHandler(ReactiveSelect.buttonClickedEventType, (event: CustomEvent) => {
@@ -50,18 +64,6 @@ const addQuestionSelect = new ReactiveSelect()
         questions.push(instance);
         render();
     }) as ReactiveSelect;
-
-addQuestionSelect.updateState({
-    name: 'add-question',
-    options: Object
-        .keys(QuestionType)
-        .map(Number)
-        .filter(v => !isNaN(v))
-        .map(v => ({
-            text: getQuestionTypeName(v),
-            value: String(v),
-        })),
-});
 
 const questions: QuizQuestion[] = [];
 const addQuestionSection = ElementBuilder

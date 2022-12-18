@@ -2,6 +2,7 @@ import { Quiz } from './quiz';
 
 export class QuizManager {
     private static readonly quizKeyPrefix = 'Q';
+    private static currentQuestionId = Number(sessionStorage.getItem('currentQuestionId')) ?? 0;
 
     public static save(quiz: Quiz): void {
         const key = QuizManager.getQuizStorageKey(quiz.id);
@@ -23,6 +24,11 @@ export class QuizManager {
             .filter(key => key.startsWith(this.quizKeyPrefix))
             .map(quizKey => localStorage.getItem(quizKey)!)
             .map(json => JSON.parse(json));
+    }
+
+    public static get nextQuizId() {
+        sessionStorage.setItem('currentQuestionId', String(++this.currentQuestionId));
+        return this.currentQuestionId;
     }
 
     private static getQuizStorageKey(quizId: number): string {

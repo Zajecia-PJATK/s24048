@@ -7,7 +7,7 @@ export abstract class QuizQuestion extends WebComponent {
     constructor() {
         super();
 
-        this.render();
+        queueMicrotask(this.render.bind(this));
     }
 
     protected abstract render(): void;
