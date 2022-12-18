@@ -16,10 +16,10 @@ export class ReactiveTextarea extends HTMLElement {
         this.setupTab();
 
         if (!this.hasAttribute('save')) { return; }
-        const key = this.getAttribute('save');
+        const key = this.getAttribute('save')!;
 
         // Restore content initially
-        this.child.value = sessionStorage.getItem(key);
+        this.child.value = sessionStorage.getItem(key) ?? '';
 
         // Mock user input
         queueMicrotask(() => this.child.dispatchEvent(new InputEvent('input')));

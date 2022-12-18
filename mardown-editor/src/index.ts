@@ -3,10 +3,10 @@ import { HtmlMapper } from './core/html-mapper';
 
 customElements.define('reactive-textarea', ReactiveTextarea);
 
-const inputTextArea: HTMLTextAreaElement = document.querySelector('textarea#input');
-const outputTextArea: HTMLTextAreaElement = document.querySelector('textarea#output');
-const conversion: HTMLHeadingElement = document.querySelector('h1#conversion');
-const liveOutput: HTMLElement = document.querySelector('section#live');
+const inputTextArea = document.querySelector<HTMLTextAreaElement>('textarea#input')!;
+const outputTextArea = document.querySelector<HTMLTextAreaElement>('textarea#output')!;
+const conversion = document.querySelector<HTMLHeadingElement>('h1#conversion')!;
+const liveOutput = document.querySelector('section#live')!;
 
 inputTextArea.addEventListener('input', () => {
     const value = inputTextArea.value;
@@ -21,29 +21,29 @@ inputTextArea.addEventListener('input', () => {
     } else {
         const lines = value.split('\n');
 
-        const m = (t, c) => {
-            const e = document.createElement(t);
-            e.textContent = c;
+        const makeElement = (tag: string, content: string): HTMLElement => {
+            const e = document.createElement(tag);
+            e.textContent = content;
             return e;
         }
 
-        const mm = (t, e) => {
-            const p = document.createElement(t);
-            p.append(e);
+        const wrapElement = (tag: string, element: Element): HTMLElement => {
+            const p = document.createElement(tag);
+            p.append(element);
             return p;
         }
 
-        const mappers = {
-            '######': content => m('h6', content.substring(7)),
-            '#####': content => m('h5', content.substring(6)),
-            '####': content => m('h4', content.substring(5)),
-            '###': content => m('h3', content.substring(4)),
-            '---': () => m('hr', ''),
-            '##': content => m('h2', content.substring(3)),
-            '#': content => m('h1', content.substring(2)),
-            '***': content => mm('em', m('strong', content.substring(3, content.length-3))),
-            '**': content => m('strong', content.substring(2, content.length-2)),
-            '*': content => m('em', content.substring(1, content.length-1)),
+        const mappers: Record<string, (content: string) => HTMLElement> = {
+            '######': content => makeElement('h6', content.substring(7)),
+            '#####': content => makeElement('h5', content.substring(6)),
+            '####': content => makeElement('h4', content.substring(5)),
+            '###': content => makeElement('h3', content.substring(4)),
+            '---': () => makeElement('hr', ''),
+            '##': content => makeElement('h2', content.substring(3)),
+            '#': content => makeElement('h1', content.substring(2)),
+            '***': content => wrapElement('em', makeElement('strong', content.substring(3, content.length-3))),
+            '**': content => makeElement('strong', content.substring(2, content.length-2)),
+            '*': content => makeElement('em', content.substring(1, content.length-1)),
         }
 
         const output = [];
@@ -51,7 +51,7 @@ inputTextArea.addEventListener('input', () => {
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             const [ mapperToken ] = Object.keys(mappers).filter(token => line.startsWith(token))
-            const prefixMapped: HTMLElement = mappers[mapperToken]?.(line);
+            const prefixMapped: HTMLElement | undefined = mappers[mapperToken]?.(line);
 
             if (prefixMapped) {
                 output.push(prefixMapped?.outerHTML);
@@ -59,7 +59,7 @@ inputTextArea.addEventListener('input', () => {
             }
 
 
-            const p = m('p', line);
+            const p = makeElement('p', line);
             output.push(p.outerHTML);
         }
 

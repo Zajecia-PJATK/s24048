@@ -1,5 +1,4 @@
-import { ElementMapper } from './element-mapper';
-
+type ElementMapper = (e: Element) => string;
 export class HtmlMapper {
     private static mappers: Record<string, ElementMapper> = {
         'H1': this.prefixMapper('#'),
@@ -8,12 +7,12 @@ export class HtmlMapper {
         'H4': this.prefixMapper('####'),
         'H5': this.prefixMapper('#####'),
         'H6': this.prefixMapper('######'),
-        'P': e => e.textContent,
+        'P': e => e.textContent ?? '',
         'BR': () => '',
         'STRONG': this.surroundMapper('**'),
         'EM': this.surroundMapper('*'),
         'BLOCKQUOTE': this.multilinePrefixMapper('>'),
-        'LI': e => e.textContent,
+        'LI': e => e.textContent ?? '',
         'CODE': this.surroundMapper('`'),
         'HR': () => '---',
         'A': this.linkMapper(),
@@ -77,7 +76,7 @@ export class HtmlMapper {
         return Array
             .from(element.childNodes)
             .filter(x => x.nodeType === Node.TEXT_NODE)
-            .map(x => x.textContent.trim())
+            .map(x => x.textContent?.trim() ?? '')
             .join()
     }
 
