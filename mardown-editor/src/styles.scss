@@ -68,8 +68,7 @@ body {
 
 @font-face {
   font-family: 'QuizRegular';
-  // noinspection CssUnknownTarget
-  src: url('./../../public/JetBrainsMono-VariableFont_wght.ttf');
+  src: url('../public/JetBrainsMono-VariableFont_wght.ttf');
   font-weight: 125 950;
   font-stretch: 75% 125%;
   font-style: normal;
@@ -84,7 +83,6 @@ body {
   margin: 0;
   padding: 1em;
   box-sizing: border-box;
-  // noinspection CssInvalidPropertyValue
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -98,54 +96,19 @@ body {
     'opsz' 48
   }
 
-  a {
-    color: var(--secondary);
-  }
-
-  .button {
-    display: inline-grid;
-    place-items: center;
-    padding: 1em;
-    text-decoration: none;
-    background-color: var(--secondary);
-    color: var(--primary-dark);
-    transition: all 0.4s ease-in-out;
-
-    &:not(.square) {
-      border-radius: 0.5em;
-    }
-
-    &.square {
-      max-width: 70px;
-      aspect-ratio: 1 / 1;
-    }
-
-    &.disabled {
-      background-color: var(--secondary-30);
-      cursor: not-allowed;
-    }
-
-    &:hover:not(.disabled) {
-      background-color: var(--secondary-60);
-
-      &:not(.square) {
-        border-radius: 1.5em;
-      }
-    }
-  }
-
-  section.responsive-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
+  section.panes {
+    flex-grow: 1;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
   }
 
   footer {
     display: grid;
     place-items: center;
     padding: 1em;
-    margin: auto -1em -1em;
+    margin: 16px -1em -1em;
     background-color: var(--secondary);
 
     span.copy {
