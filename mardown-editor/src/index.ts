@@ -6,6 +6,7 @@ customElements.define('reactive-textarea', ReactiveTextarea);
 const inputTextArea: HTMLTextAreaElement = document.querySelector('textarea#input');
 const outputTextArea: HTMLTextAreaElement = document.querySelector('textarea#output');
 const conversion: HTMLHeadingElement = document.querySelector('h1#conversion');
+const liveOutput: HTMLElement = document.querySelector('section#live');
 
 inputTextArea.addEventListener('input', () => {
     const value = inputTextArea.value;
@@ -15,5 +16,7 @@ inputTextArea.addEventListener('input', () => {
     conversion.textContent = isHtml ? 'HTML 2 MD' : 'MD 2 HTML';
 
     outputTextArea.value = HtmlMapper.html2md(template.content);
-    outputTextArea.dispatchEvent(new InputEvent('input'))
+    outputTextArea.dispatchEvent(new InputEvent('input'));
+
+    liveOutput.innerHTML = value;
 });

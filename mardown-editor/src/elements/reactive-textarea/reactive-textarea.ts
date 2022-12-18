@@ -12,7 +12,6 @@ export class ReactiveTextarea extends HTMLElement {
         if (!textarea) throw new Error('Pass textarea within label to <reactive-textarea>!')
 
         this.child = textarea;
-        this.child.addEventListener('input', this.resize.bind(this));
 
         this.setupTab();
 
@@ -27,11 +26,6 @@ export class ReactiveTextarea extends HTMLElement {
 
         // Save content on each type
         this.child.addEventListener('input', () => sessionStorage.setItem(key, this.child.value));
-    }
-
-    private resize(): void {
-        this.child.style.height = '0';
-        this.child.style.height = `${this.child.scrollHeight}px`;
     }
 
     private setupTab(): void {

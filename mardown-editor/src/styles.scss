@@ -78,12 +78,17 @@ body {
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: light dark;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
 body {
   font-family: QuizRegular, serif;
   margin: 0;
   padding: 1em;
   box-sizing: border-box;
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: var(--primary-dark);
@@ -97,19 +102,46 @@ body {
     'opsz' 48
   }
 
+  h1#conversion {
+    scroll-snap-align: start;
+  }
+
   section.panes {
-    flex-grow: 1;
+    scroll-snap-align: start;
     display: grid;
     gap: 16px;
-    grid-template-columns: 1fr 1fr;
+    padding: 16px 0;
+    height: 100dvh;
+    grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
     align-items: stretch;
+
+    reactive-textarea:nth-of-type(1) {
+      grid-row: 1 / span 2;
+    }
+
+    reactive-textarea > textarea {
+      overflow-y: scroll;
+    }
+
+    article.live-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      section#live {
+        height: 100%;
+        overflow: auto;
+        border-radius: 0.5em;
+        border: 1px solid var(--secondary);
+      }
+    }
   }
 
   footer {
+    scroll-snap-align: end;
     display: grid;
     place-items: center;
     padding: 1em;
-    margin: 16px -1em -1em;
+    margin: 0 -1em -1em;
     background-color: var(--secondary);
 
     span.copy {
