@@ -1,9 +1,9 @@
-import { HeadersHorizontalLineParser } from './headers-horizontal-line-parser';
+import { LinkImageParser } from './link-image-parser';
 
 export class QuoteListParser {
     public constructor(private readonly md: string) {}
 
-    public parseQuotesLists(): HeadersHorizontalLineParser {
+    public parseQuotesLists(): LinkImageParser {
         const lines = this.md.split('\n');
         const output = [];
 
@@ -43,6 +43,6 @@ export class QuoteListParser {
             output.push(`</${opened}>`);
         }
 
-        return new HeadersHorizontalLineParser(output.join('\n'));
+        return new LinkImageParser(output.join('\n'));
     }
 }

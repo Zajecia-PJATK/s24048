@@ -1,4 +1,5 @@
 import { QuoteListParser } from './quote-list-parser';
+import { substituteString } from '../common/substitute-string';
 
 export class BoldItalicStrikethroughCodeParser {
     public constructor(private readonly md: string) {}
@@ -18,9 +19,9 @@ export class BoldItalicStrikethroughCodeParser {
                 const {bold, italic, strikethrough, code} = m.groups!;
 
                 const replaceGroup = (htmlTag: string, content: string, prefixLength: number) => {
-                    const start = m!.index + prefixLength;
+                    const start = m!.index;
                     const end = start + content.length;
-                    regexParsedOutput = regexParsedOutput.substring(0, start - prefixLength) + `<${htmlTag}>` + content + `</${htmlTag}>` + regexParsedOutput.substring(end + prefixLength);
+                    regexParsedOutput = substituteString(regexParsedOutput, start, end + 2 * prefixLength, `<${htmlTag}>` + content + `</${htmlTag}>`);
                 };
 
                 !!bold && replaceGroup('strong', bold, 2);

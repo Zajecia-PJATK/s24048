@@ -5,6 +5,7 @@ export class MarkdownMapper {
         return new BoldItalicStrikethroughCodeParser(md)
             .parseBoldItalicStrikethroughCode()
             .parseQuotesLists()
+            .parseLinksImages()
             .parseHeadersHorizontalLine();
     }
 }
