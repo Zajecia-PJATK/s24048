@@ -26,7 +26,7 @@ export class LinkImageParser {
                     : '';
 
                 const substitute = fullMatch[0] === '!'
-                    ? `<img src="${url}" alt="${text}"${titleAttr}/>"`
+                    ? `<img src="${url}" alt="${text}"${titleAttr}/>`
                     : `<a href="${url}"${titleAttr}>${text}</a>`;
 
                 regexParsed = substituteString(regexParsed, m.index, m.index + fullMatch.length, substitute);
