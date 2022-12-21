@@ -7,13 +7,13 @@ export class QuoteListParser {
         const lines = this.md.split('\n');
         const output = [];
 
-        const tags = {
+        const tags: Record<string, string> = {
             'ul': 'li',
             'blockquote': 'p',
             'ol': 'li',
         };
 
-        const openers = {
+        const openers: Record<string, string> = {
             '>': 'blockquote',
             '-': 'ul',
             '1': 'ol',
