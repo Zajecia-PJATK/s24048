@@ -1,9 +1,9 @@
-import { BoldItalicStrikethroughParser } from './markdown/bold-italic-strikethrough-parser';
+import { BoldItalicStrikethroughCodeParser } from './markdown/bold-italic-strikethrough-code-parser';
 
 export class MarkdownMapper {
     public static md2html(md: string): string {
-        return new BoldItalicStrikethroughParser(md)
-            .parseBoldItalicStrikethrough()
+        return new BoldItalicStrikethroughCodeParser(md)
+            .parseBoldItalicStrikethroughCode()
             .parseQuotesLists()
             .parseHeadersHorizontalLine();
     }
