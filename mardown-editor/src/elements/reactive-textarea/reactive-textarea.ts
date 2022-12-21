@@ -1,4 +1,5 @@
 import './reactive-textarea.scss';
+import { substituteString } from '../../core/common/substitute-string';
 
 export class ReactiveTextarea extends HTMLElement {
     private static readonly TAB = '\t';
@@ -35,9 +36,29 @@ export class ReactiveTextarea extends HTMLElement {
 
             const before = this.child.value;
             const selectionStart = this.child.selectionStart;
-            this.child.value = before.substring(0, selectionStart) + ReactiveTextarea.TAB + before.substring(selectionStart);
+            if (event.shiftKey) {
+                const textLeftToCursor = before.substring(0, selectionStart);
+                const textRightToCursor = before.substring(selectionStart);
 
-            this.child.selectionStart = selectionStart + 1;
+                const leftNewlinePosition = textLeftToCursor.lastIndexOf('\n');
+                const rightNewlinePosition = textRightToCursor.indexOf('\n');
+
+                const leftConstraint = Math.max(leftNewlinePosition, 0);
+                const rightConstraint = Math.max(rightNewlinePosition, before.length);
+
+                const constrainedText = before.substring(leftConstraint, rightConstraint + 1);
+                const tabIndex = constrainedText.indexOf('\t');
+
+                if (tabIndex === -1) { return; }
+
+                const tabPosition = tabIndex + leftConstraint;
+
+                this.child.value = substituteString(before, tabPosition, tabPosition + 1, '');
+                this.child.selectionStart = selectionStart + (Number(tabPosition >= 0) * (tabPosition >= selectionStart) ? 0 : -1);
+            } else {
+                this.child.value = before.substring(0, selectionStart) + ReactiveTextarea.TAB + before.substring(selectionStart);
+                this.child.selectionStart = selectionStart + 1;
+            }
             this.child.selectionEnd = this.child.selectionStart;
         });
     }
