@@ -40,11 +40,11 @@ export class ReactiveTextarea extends HTMLElement {
                 const textLeftToCursor = before.substring(0, selectionStart);
                 const textRightToCursor = before.substring(selectionStart);
 
-                const leftNewlinePosition = textLeftToCursor.lastIndexOf('\n');
-                const rightNewlinePosition = textRightToCursor.indexOf('\n');
+                const leftNewlinePosition = textLeftToCursor.indexOf('\n');
+                const rightNewlinePosition = textRightToCursor.lastIndexOf('\n');
 
-                const leftConstraint = Math.max(leftNewlinePosition, 0);
-                const rightConstraint = Math.max(rightNewlinePosition, before.length);
+                const leftConstraint = leftNewlinePosition === -1 ? 0 : leftNewlinePosition;
+                const rightConstraint = rightNewlinePosition === -1 ? before.length : rightNewlinePosition;
 
                 const constrainedText = before.substring(leftConstraint, rightConstraint + 1);
                 const tabIndex = constrainedText.indexOf('\t');
