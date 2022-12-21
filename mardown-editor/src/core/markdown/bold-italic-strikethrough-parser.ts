@@ -1,9 +1,9 @@
-import { QuoteParser } from './quote-parser';
+import { QuoteListParser } from './quote-list-parser';
 
 export class BoldItalicStrikethroughParser {
     public constructor(private readonly md: string) {}
 
-    public parseBoldItalicStrikethrough(): QuoteParser {
+    public parseBoldItalicStrikethrough(): QuoteListParser {
         let regexParsedOutput = this.md.slice();
 
         const regex = /(\*\*(?<bold>[^*]*)\*\*)|(\*(?<italic>[^*]*)\*)|(~~(?<strikethrough>[^~]*)~~)/gm;
@@ -29,6 +29,6 @@ export class BoldItalicStrikethroughParser {
             }
         }
 
-        return new QuoteParser(regexParsedOutput);
+        return new QuoteListParser(regexParsedOutput);
     }
 }

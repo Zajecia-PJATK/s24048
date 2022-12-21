@@ -4,7 +4,7 @@ export class MarkdownMapper {
     public static md2html(md: string): string {
         return new BoldItalicStrikethroughParser(md)
             .parseBoldItalicStrikethrough()
-            .parseQuotes()
+            .parseQuotesLists()
             .parseHeadersHorizontalLine();
     }
 }
