@@ -46,22 +46,30 @@
 </header>
 
 <section id="panes">
+    <label>
+        <input id="import" accept="text/html, text/markdown, text/plain" type="file">
+    </label>
+
     <reactive-textarea save="input.content">
-        <label>
-            <span>Input <button onclick="window.import.click()">Import</button></span>
-            <input id="import" accept="text/html, text/markdown, text/plain" type="file">
-            <textarea id="input"></textarea>
-        </label>
+        <div class="row">
+            <span class="material-symbols-outlined">apps</span>
+            <label for="input">Input</label>
+            <button onclick="window.import.click()">Import</button>
+        </div>
+        <textarea id="input"></textarea>
     </reactive-textarea>
 
     <reactive-textarea>
-        <label>
-            <span>Output - code <button id="export">Export</button></span>
-            <textarea id="output" disabled></textarea>
-        </label>
+        <div class="row">
+            <span class="material-symbols-outlined">apps</span>
+            <label for="output">Output - code</label>
+            <button id="export">Export</button>
+        </div>
+        <textarea id="output" disabled></textarea>
     </reactive-textarea>
 
     <article class="live-preview">
+        <span class="material-symbols-outlined">apps</span>
         <span>Output - live preview</span>
         <section id="live" class="markdown-body"></section>
     </article>
