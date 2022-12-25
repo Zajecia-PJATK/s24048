@@ -32,18 +32,18 @@ export class ReactiveTextarea extends HTMLElement {
     }
 
     private setupImport(): void {
-        const input: HTMLInputElement | undefined = this.querySelector('#import');
+        const input: HTMLInputElement | null = this.querySelector('#import');
         if (!input) return;
 
         input.addEventListener('change', async () => {
-            const [file] = input.files;
+            const [file] = input.files!;
             this.child.value = await file.text();
             this.child.dispatchEvent(new InputEvent('input'));
         })
     }
 
     private setupExport(): void {
-        const button: HTMLButtonElement | undefined = this.querySelector('#export');
+        const button: HTMLButtonElement | null = this.querySelector('#export');
         if (!button) return;
 
         button.addEventListener('click', async () => {
@@ -80,7 +80,7 @@ export class ReactiveTextarea extends HTMLElement {
                 const tabPosition = tabIndex + leftConstraint;
 
                 this.child.value = substituteString(before, tabPosition, tabPosition + 1, '');
-                this.child.selectionStart = selectionStart + (Number(tabPosition >= 0) * (tabPosition >= selectionStart) ? 0 : -1);
+                this.child.selectionStart = selectionStart + (Number(tabPosition >= 0) * (tabPosition >= selectionStart ? 0 : -1));
             } else {
                 this.child.value = before.substring(0, selectionStart) + ReactiveTextarea.TAB + before.substring(selectionStart);
                 this.child.selectionStart = selectionStart + 1;
