@@ -1,5 +1,6 @@
-let dragSrcEl;
+export {}
 
+let dragSrcEl;
 function handleDragStart(e) {
     this.style.opacity = '0.4';
 
