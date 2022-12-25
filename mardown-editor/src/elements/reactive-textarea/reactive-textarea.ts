@@ -48,7 +48,13 @@ export class ReactiveTextarea extends HTMLElement {
 
         button.addEventListener('click', async () => {
             try {
-                const newHandle = await window.showSaveFilePicker();
+                const newHandle = await window.showSaveFilePicker({
+                    suggestedName: 'Untitled.' + window.conversion.textContent.split(' ')[2].toLowerCase(),
+                    types: [{
+                        description: 'Source code',
+                        accept: {'text/plain': ['.md', '.html']},
+                    }],
+                });
                 const writableStream = await newHandle.createWritable();
 
                 await writableStream.write(this.child.value);
