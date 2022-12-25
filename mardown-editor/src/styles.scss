@@ -48,6 +48,17 @@ body {
     'opsz' 48
   }
 
+  .row {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .drag {
+    margin-left: -6px;
+    cursor: grab;
+    user-select: none;
+  }
+
   header {
     scroll-snap-align: start;
     background-color: var(--secondary);
@@ -94,7 +105,7 @@ body {
       display: none;
     }
 
-    reactive-textarea:nth-of-type(1) {
+    [draggable]:nth-child(1) {
       grid-row: 1 / span 2;
     }
 

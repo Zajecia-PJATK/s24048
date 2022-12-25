@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./styles.scss">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <script type="module" src="index.ts"></script>
+    <script type="module" src="draggable-ui.ts"></script>
     <title>Home</title>
 </head>
 <body>
@@ -46,31 +47,31 @@
 </header>
 
 <section id="panes">
-    <label>
-        <input id="import" accept="text/html, text/markdown, text/plain" type="file">
-    </label>
-
-    <reactive-textarea save="input.content">
+    <reactive-textarea save="input.content" draggable="false">
         <div class="row">
-            <span class="material-symbols-outlined">apps</span>
+            <span class="material-symbols-outlined drag">drag_indicator</span>
             <label for="input">Input</label>
             <button onclick="window.import.click()">Import</button>
+            <label><input id="import" accept="text/html, text/markdown, text/plain" type="file"></label>
         </div>
         <textarea id="input"></textarea>
     </reactive-textarea>
 
-    <reactive-textarea>
+    <reactive-textarea draggable="false">
         <div class="row">
-            <span class="material-symbols-outlined">apps</span>
+            <span class="material-symbols-outlined drag">drag_indicator</span>
             <label for="output">Output - code</label>
             <button id="export">Export</button>
         </div>
         <textarea id="output" disabled></textarea>
     </reactive-textarea>
 
-    <article class="live-preview">
-        <span class="material-symbols-outlined">apps</span>
-        <span>Output - live preview</span>
+    <article class="live-preview" draggable="false">
+        <div class="row">
+            <span class="material-symbols-outlined drag">drag_indicator</span>
+            <span>Output - live preview</span>
+            <span><!-- layout: no export for live preview --></span>
+        </div>
         <section id="live" class="markdown-body"></section>
     </article>
 </section>
