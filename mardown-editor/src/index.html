@@ -11,9 +11,41 @@
 </head>
 <body>
 
-<h1 id="conversion">MD 2 HTML</h1>
+<header>
+    <h1 id="conversion">MD 2 HTML</h1>
+    <h2>How to use?</h2>
+    <ul>
+        <li>Type <mark>Mark</mark>down or HTML into <a href="#panes">Input</a> area.</li>
+        <li>You can import code from file.</li>
+        <li>You can export result to file.</li>
+        <li>Scroll down to see the editor.</li>
+    </ul>
 
-<section class="panes">
+    <h2>What is HTML?</h2>
+    <ul>
+        <li>HTML stands for HyperText Markup Language.</li>
+        <li>It is a standard markup language for web page creation.</li>
+        <li>It allows the creation and structure of sections, paragraphs, and links using HTML elements.</li>
+        <li>This converter supports only subset of HTML.</li>
+    </ul>
+
+    <h2>What is Markdown?</h2>
+    <ul>
+        <li>Markdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents.</li>
+        <li>Created by John Gruber in 2004, Markdown is now one of the world’s most popular markup languages.</li>
+        <li>Markdown is platform independent. You can create Markdown-formatted text on any device running any operating system.</li>
+    </ul>
+
+    <h2>Can I use them interchangeably?</h2>
+    <ul>
+        <li>If you write simple text documents: Yes!</li>
+        <li>If you want to use advanced things like <u>underlines</u> you are stuck with HTML.</li>
+    </ul>
+
+    <a id="scroll-to-panes" href="#panes"><span class="material-symbols-outlined">arrow_downward</span></a>
+</header>
+
+<section id="panes">
     <reactive-textarea save="input.content">
         <label>
             <span>Input</span>
