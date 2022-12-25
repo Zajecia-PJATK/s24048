@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'github-markdown-css/github-markdown.css';
+@import 'spacing';
 
 @font-face {
   font-family: 'QuizRegular';
@@ -64,7 +65,7 @@ body {
     background-color: var(--secondary);
     color: var(--primary);
     height: 100dvh;
-    padding: 0 1em;
+    padding: 0 $space-lg;
     display: flex;
     flex-direction: column;
 
@@ -74,14 +75,14 @@ body {
     }
 
     h2:not(:first-of-type) {
-      margin-top: 2em;
+      margin-top: #{$space-lg * 2};
     }
 
     a#scroll-to-panes {
       margin-top: auto;
       align-self: center;
       width: 50px;
-      padding: 0.5em;
+      padding: $space-md;
       display: grid;
       place-items: center;
     }
@@ -90,9 +91,9 @@ body {
   section#panes {
     scroll-snap-align: start;
     display: grid;
-    gap: 1em;
-    padding: 1em 0;
-    margin: 0 1em;
+    gap: $space-lg;
+    padding: $space-lg 0;
+    margin: 0 $space-lg;
     height: 100dvh;
     align-items: stretch;
     grid-template-rows: repeat(3, minmax(0, 1fr));
@@ -116,14 +117,14 @@ body {
     article.live-preview {
       display: flex;
       flex-direction: column;
-      gap: 0.5em;
+      gap: $space-md;
 
       section#live {
         height: 100%;
         overflow: auto;
-        border-radius: 0.5em;
+        border-radius: $space-sm;
         outline: 2px solid var(--secondary-50);
-        padding: 0.5em;
+        padding:$space-sm;
       }
     }
   }
@@ -133,7 +134,7 @@ body {
     height: 10dvh;
     display: grid;
     place-items: center;
-    padding: 1em;
+    padding: $space-lg;
     background-color: var(--secondary);
 
     span.copy {

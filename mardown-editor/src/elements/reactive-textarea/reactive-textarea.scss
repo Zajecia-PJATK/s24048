@@ -1,15 +1,17 @@
+@import '../../spacing.scss';
+
 reactive-textarea {
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 0.8em;
+  gap: $space-md;
 
   button {
     cursor: pointer;
     outline: 2px solid var(--secondary);
     border: none;
     color: var(--secondary);
-    border-radius: 0.5em;
+    border-radius: $space-sm;
     background-color: var(--secondary-10);
     font-weight: 900;
   }
@@ -19,8 +21,8 @@ reactive-textarea {
     cursor: text;
     display: inline-flex;
     height: 100%;
-    padding: 0.5em;
-    border-radius: 0.5em;
+    padding: $space-sm;
+    border-radius: $space-sm;
     outline: 2px solid var(--secondary-50);
     border: none;
     color: var(--secondary);
