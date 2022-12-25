@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/node': ^18.11.9
+  '@types/wicg-file-system-access': ^2020.9.5
   gh-pages: ^4.0.0
   sass: ^1.56.1
   typescript: ^4.9.4
@@ -9,6 +10,7 @@ specifiers:
 
 devDependencies:
   '@types/node': 18.11.9
+  '@types/wicg-file-system-access': 2020.9.5
   gh-pages: 4.0.0
   sass: 1.56.1
   typescript: 4.9.4
@@ -36,6 +38,10 @@ packages:
 
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
+    dev: true
+
+  /@types/wicg-file-system-access/2020.9.5:
+    resolution: {integrity: sha512-UYK244awtmcUYQfs7FR8710MJcefL2WvkyHMjA8yJzxd1mo0Gfn88sRZ1Bls7hiUhA2w7ne1gpJ9T5g3G0wOyA==}
     dev: true
 
   /anymatch/3.1.2:

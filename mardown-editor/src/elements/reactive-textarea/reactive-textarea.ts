@@ -14,6 +14,8 @@ export class ReactiveTextarea extends HTMLElement {
 
         this.child = textarea;
 
+        this.setupImport();
+        this.setupExport();
         this.setupTab();
 
         if (!this.hasAttribute('save')) { return; }
@@ -27,6 +29,30 @@ export class ReactiveTextarea extends HTMLElement {
 
         // Save content on each type
         this.child.addEventListener('input', () => sessionStorage.setItem(key, this.child.value));
+    }
+
+    private setupImport(): void {
+        const input: HTMLInputElement | undefined = this.querySelector('#import');
+        if (!input) return;
+
+        input.addEventListener('change', async () => {
+            const [file] = input.files;
+            this.child.value = await file.text();
+            this.child.dispatchEvent(new InputEvent('input'));
+        })
+    }
+
+    private setupExport(): void {
+        const button: HTMLButtonElement | undefined = this.querySelector('#export');
+        if (!button) return;
+
+        button.addEventListener('click', async () => {
+            const newHandle = await window.showSaveFilePicker();
+            const writableStream = await newHandle.createWritable();
+
+            await writableStream.write(this.child.value);
+            await writableStream.close();
+        });
     }
 
     private setupTab(): void {

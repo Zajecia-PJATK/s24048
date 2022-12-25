@@ -48,14 +48,15 @@
 <section id="panes">
     <reactive-textarea save="input.content">
         <label>
-            <span>Input</span>
+            <span>Input <button onclick="window.import.click()">Import</button></span>
+            <input id="import" type="file">
             <textarea id="input"></textarea>
         </label>
     </reactive-textarea>
 
     <reactive-textarea>
         <label>
-            <span>Output - code</span>
+            <span>Output - code <button id="export">Export</button></span>
             <textarea id="output" disabled></textarea>
         </label>
     </reactive-textarea>

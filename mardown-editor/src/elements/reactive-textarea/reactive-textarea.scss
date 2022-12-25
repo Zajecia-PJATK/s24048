@@ -2,11 +2,31 @@ reactive-textarea {
   label {
     display: inline-flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 0.8em;
     width: 100%;
     height: 100%;
 
+    input[type='file']#import {
+      display: none;
+    }
+
+    span {
+      display: inline-flex;
+      justify-content: space-between;
+
+      button {
+        cursor: pointer;
+        outline: 2px solid var(--secondary);
+        border: none;
+        color: var(--secondary);
+        border-radius: 0.5em;
+        background-color: var(--secondary-10);
+        font-weight: 900;
+      }
+    }
+
     textarea {
+      cursor: text;
       display: inline-flex;
       height: 100%;
       padding: 0.5em;
