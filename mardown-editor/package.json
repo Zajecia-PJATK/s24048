@@ -15,5 +15,8 @@
     "sass": "^1.56.1",
     "typescript": "^4.9.4",
     "vite": "^3.2.3"
+  },
+  "dependencies": {
+    "github-markdown-css": "^5.1.0"
   }
 }

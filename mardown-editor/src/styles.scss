@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'github-markdown-css/github-markdown.css';
 
 @font-face {
   font-family: 'QuizRegular';
@@ -101,8 +102,8 @@ body {
       display: flex;
       flex-direction: column;
       gap: 0.5em;
+
       section#live {
-        background-color: var(--primary-80);
         height: 100%;
         overflow: auto;
         border-radius: 0.5em;
