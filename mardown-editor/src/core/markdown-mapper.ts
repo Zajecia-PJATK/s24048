@@ -6,6 +6,7 @@ export class MarkdownMapper {
             .parseBoldItalicStrikethroughCode()
             .parseQuotesLists()
             .parseLinksImages()
-            .parseHeadersHorizontalLine();
+            .parseHeadersHorizontalLine()
+            .replaceAll('\n\n', '<br>');
     }
 }
