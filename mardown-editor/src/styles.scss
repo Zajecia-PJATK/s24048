@@ -125,6 +125,10 @@ body {
         scroll-snap-align: start;
         height: 100dvh;
         padding: $space-lg 0;
+
+        span.drag {
+          display: none;
+        }
       }
     }
 
