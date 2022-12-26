@@ -74,8 +74,23 @@ body {
       font-weight: 900;
     }
 
-    h2:not(:first-of-type) {
-      margin-top: #{$space-lg * 2};
+    section.qa {
+      flex-shrink: 1;
+      overflow-y: auto;
+      column-count: 1;
+      column-gap: #{$space-lg * 2};
+
+      @media (min-width: 1024px) {
+        column-count: 2;
+      }
+
+      h2 {
+        margin-top: 0;
+
+        &:not(:first-of-type) {
+          margin-top: #{$space-lg * 2};
+        }
+      }
     }
 
     a#scroll-to-panes {
@@ -89,17 +104,28 @@ body {
   }
 
   section#panes {
-    scroll-snap-align: start;
-    display: grid;
     gap: $space-lg;
     padding: $space-lg 0;
     margin: 0 $space-lg;
-    height: 100dvh;
     align-items: stretch;
     grid-template-rows: repeat(3, minmax(0, 1fr));
 
     @media (min-width: 1024px) {
+      display: grid;
+      scroll-snap-align: start;
+      height: 100dvh;
       grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 1023px) {
+      display: flex;
+      flex-direction: column;
+
+      reactive-textarea, article.live-preview {
+        scroll-snap-align: start;
+        height: 100dvh;
+        padding: $space-lg 0;
+      }
     }
 
     label:has(input[type='file']#import) {
