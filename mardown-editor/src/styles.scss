@@ -130,16 +130,19 @@ body {
   }
 
   footer {
-    scroll-snap-align: end;
-    height: 10dvh;
+    user-select: none;
+    bottom: 0;
+    position: sticky;
     display: grid;
-    place-items: center;
-    padding: $space-lg;
-    background-color: var(--secondary);
+    place-items: end;
 
     span.copy {
-      color: var(--primary);
-      font-weight: 800;
+      padding: 0 #{2 * $space-lg};
+      color: var(--secondary);
+      background-color: var(--primary);
+      font-weight: 100;
+      opacity: 0.2;
+      font-size: 1ch;
     }
   }
 }
