@@ -106,8 +106,31 @@ body {
       display: none;
     }
 
-    [draggable]:nth-child(1) {
-      grid-row: 1 / span 2;
+    [draggable] {
+      container-type: size;
+
+      &:nth-child(1) {
+        grid-row: 1 / span 2;
+      }
+
+      &.over {
+        outline: 2px red solid;
+
+        * {
+          background-color: transparent !important;
+        }
+
+        &::after {
+          z-index: -1;
+          inset: 0;
+          width: 100cqw;
+          height: 100cqh;
+          content: 'Drop here';
+          position: absolute;
+          display: grid;
+          place-items: center;
+        }
+      }
     }
 
     reactive-textarea > textarea {
@@ -123,7 +146,7 @@ body {
         height: 100%;
         overflow: auto;
         border-radius: $space-sm;
-        outline: 2px solid var(--secondary-50);
+        border: 1px solid var(--secondary-50);
         padding:$space-sm;
       }
     }

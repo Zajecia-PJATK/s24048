@@ -8,8 +8,8 @@ reactive-textarea {
 
   button {
     cursor: pointer;
-    outline: 2px solid var(--secondary);
-    border: none;
+    border: 1px solid var(--secondary);
+    outline: none;
     color: var(--secondary);
     border-radius: $space-sm;
     background-color: var(--secondary-10);
@@ -23,8 +23,8 @@ reactive-textarea {
     height: 100%;
     padding: $space-sm;
     border-radius: $space-sm;
-    outline: 2px solid var(--secondary-50);
-    border: none;
+    border: 1px solid var(--secondary-50);
+    outline: none;
     color: var(--secondary);
     background-color: var(--primary-80);
     resize: none;
