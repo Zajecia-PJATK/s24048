@@ -7,7 +7,7 @@ export class BoldItalicStrikethroughCodeParser {
     public parseBoldItalicStrikethroughCode(): QuoteListParser {
         let regexParsedOutput = this.md.slice();
 
-        const regex = /(\*\*(?<bold>[^*]*)\*\*)|(\*(?<italic>[^*]*)\*)|(~~(?<strikethrough>[^~]*)~~)|(`(?<code>[^`]*)`)/gm;
+        const regex = /(\*\*\*(?<boldAndItalic>[^*]*)\*\*\*)|(\*\*(?<bold>[^*]*)\*\*)|(\*(?<italic>[^*]*)\*)|(~~(?<strikethrough>[^~]*)~~)|(`(?<code>[^`]*)`)/gm;
         for (let i = 0; i < 4; i++) {
             let m: RegExpExecArray | null;
             while ((m = regex.exec(regexParsedOutput)) !== null) {
