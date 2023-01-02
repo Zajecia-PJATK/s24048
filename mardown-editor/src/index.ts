@@ -17,7 +17,7 @@ inputTextArea.addEventListener('input', () => {
     conversion.textContent = isHtml ? 'HTML 2 MD' : 'MD 2 HTML';
 
     if (isHtml) {
-        outputTextArea.value = HtmlMapper.html2md(value);
+        outputTextArea.value = HtmlMapper.html2md(template.content);
         liveOutput.innerHTML = value;
     } else {
         outputTextArea.value = MarkdownMapper.md2html(value);
