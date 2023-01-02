@@ -1,5 +1,5 @@
 import { ReactiveTextarea } from './elements/reactive-textarea/reactive-textarea';
-import { HtmlMapper } from './core/markdown/html-mapper';
+import { HtmlMapper } from './core/html-mapper';
 import { MarkdownMapper } from './core/markdown-mapper';
 
 customElements.define('reactive-textarea', ReactiveTextarea);

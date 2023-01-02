@@ -1,6 +1,5 @@
-import { BoldItalicStrikethroughCodeParser } from './markdown/bold-italic-strikethrough-code-parser';
-
 export class MarkdownMapper {
+    /** Order of these rules matters! */
     private static readonly rules = new RegExp([
         /** Tables */
         /(^\|(?<tableSeparator>[\s\-|]+)\|\n)/,
@@ -22,6 +21,11 @@ export class MarkdownMapper {
         /((?<=-.+\n)- (?<unorderedListMiddleItem>.+)\n(?=-))/,
         /(- (?<unorderedListLastItem>.+)\n(?!-))/,
 
+        /** Ordered list */
+        /((?<!\d+\..+\n)\d+\. (?<orderedListFirstItem>.+)\n)/,
+        /((?<=\d+\..+\n)\d+\. (?<orderedListMiddleItem>.+)\n(?=\d+\.))/,
+        /(\d+\. (?<orderedListLastItem>.+)\n(?!\d+\.))/,
+
         /** Text decorations */
         /(\*\*\*(?<boldAndItalic>[^*]*)\*\*\*)/,
         /(\*\*(?<bold>[^*]*)\*\*)/,
@@ -38,19 +42,21 @@ export class MarkdownMapper {
         /(^#{2} (?<h2>.+))/,
         /(^# (?<h1>.+))/,
 
+        /** Horizontal line */
+        /(?<horizontalLine>^-{3}\n)/,
+
+        /** Quotes */
+        /(?<=^\n)> (?<singleLineQuote>.+)\n(?!^>)/,
+        /((?<!> .+\n)> (?<quoteFirst>.+))/,
+        /(> (?<quoteLast>.+)(?!.*\n> .+))/,
+        /(> (?<quoteMiddle>.+))/,
+
+        /** Line breaks */
+        /(?<lineBreak>\n{2})/,
+
     ].map(r => r.source).join('|'), 'gm');
 
     public static md2html(md: string): string {
-        console.log(this.rules)
-
-        // return
-            // new BoldItalicStrikethroughCodeParser(md)
-            // .parseBoldItalicStrikethroughCode()
-            // .parseQuotesLists()
-            // .parseLinksImages()
-            // .parseHeadersHorizontalLine()
-            // .replaceAll('\n\n', '<br>');
-
         let html = md;
 
         console.time('md2html');
@@ -76,6 +82,9 @@ export class MarkdownMapper {
         unorderedListFirstItem: s => `<ul>\n\t<li>${s}</li>\n`,
         unorderedListMiddleItem: s => `\t<li>${s}</li>\n`,
         unorderedListLastItem: s => `\t<li>${s}</li>\n</ul>\n`,
+        orderedListFirstItem: s => `<ol>\n\t<li>${s}</li>\n`,
+        orderedListMiddleItem: s => `\t<li>${s}</li>\n`,
+        orderedListLastItem: s => `\t<li>${s}</li>\n</ol>\n`,
         boldAndItalic: s => `<em><strong>${s}</strong></em>`,
         bold: s => `<strong>${s}</strong>`,
         italic: s => `<em>${s}</em>`,
@@ -88,6 +97,12 @@ export class MarkdownMapper {
         h3: s => `<h3>${s}</h3>\n`,
         h2: s => `<h2>${s}</h2>\n`,
         h1: s => `<h1>${s}</h1>\n`,
+        horizontalLine: _ => `<hr>\n`,
+        singleLineQuote: s => `<blockquote>\n\t<p>${s}</p>\n</blockquote>\n`,
+        quoteFirst: s => `<blockquote>\n\t<p>${s}`,
+        quoteMiddle: s => s,
+        quoteLast: s => `${s}</p>\n</blockquote>\n`,
+        lineBreak: _ => `<br>\n`,
     };
 
      private static replacer(match: string, ...args: Record<string, string>[]): string {
