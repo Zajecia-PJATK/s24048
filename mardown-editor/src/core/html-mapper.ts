@@ -1,86 +1,92 @@
-type ElementMapper = (e: Element) => string;
 export class HtmlMapper {
-    private static mappers: Record<string, ElementMapper> = {
-        'H1': this.prefixMapper('#'),
-        'H2': this.prefixMapper('##'),
-        'H3': this.prefixMapper('###'),
-        'H4': this.prefixMapper('####'),
-        'H5': this.prefixMapper('#####'),
-        'H6': this.prefixMapper('######'),
-        'P': e => e.textContent ?? '',
-        'BR': () => '',
-        'STRONG': this.surroundMapper('**'),
-        'EM': this.surroundMapper('*'),
-        'BLOCKQUOTE': this.multilinePrefixMapper('>'),
-        'LI': e => e.textContent ?? '',
-        'CODE': this.surroundMapper('`'),
-        'HR': () => '---',
-        'A': this.linkMapper(),
-        'IMG': this.imageMapper(),
-        'OL': this.listMapper(),
-        'UL': this.listMapper(false),
+    /** Order of these rules matters! */
+    private static readonly rules = new RegExp([
+        /** Text decorations */
+        /(<strong>(?<strong>.+)<\/strong>\s*)/,
+        /(<em>(?<em>.+)<\/em>\s*)/,
+        /(<del>(?<del>.+)<\/del>\s*)/,
+        /(<pre><code>(?<multilineCode>.+)<\/code><\/pre>\s*)/,
+        /(<code>(?<inlineCode>.+)<\/code>\s*)/,
+
+        /** Headers */
+        /(<h6>(?<h6>.+)<\/h6>\s*)/,
+        /(<h5>(?<h5>.+)<\/h5>\s*)/,
+        /(<h4>(?<h4>.+)<\/h4>\s*)/,
+        /(<h3>(?<h3>.+)<\/h3>\s*)/,
+        /(<h2>(?<h2>.+)<\/h2>\s*)/,
+        /(<h1>(?<h1>.+)<\/h1>\s*)/,
+
+        /** Horizontal line */
+        /(?<hr><hr\/?>\s*)/,
+
+        /** Line breaks */
+        /(?<br><br\/?>\s*)/,
+
+        /** Images */
+        /<img src="(?<imgSrc>[^"]+)" alt="(?<imgAlt>[^"]+)"( title="(?<imgTitle>.+)")?\/>\s*/,
+
+        /** Links */
+        /<a\s+href="(?<linkUrl>[^"]+)"(?:\s+title="(?<linkTitle>.+)")?>(?<linkText>.+)<\/a>\s*/,
+
+        /** Quote */
+        /<blockquote>\s*<p>(?<quote>.+)<\/p>\s*<\/blockquote>\s*/,
+
+    ].map(r => r.source).join('|'), 'gm');
+
+    public static html2md(html: string): string {
+        let md = html;
+
+        console.time('html2md');
+        for (let i = 0; i < 5; i++) {
+            md = md.replace(HtmlMapper.rules, this.replacer);
+        }
+        console.timeEnd('html2md');
+
+        return md;
+    }
+
+    private static readonly mappers: Record<string, (text: string) => string> = {
+        /** Text decorations */
+        strong: s => `**${s}**`,
+        em: s => `*${s}*`,
+        del: s => `~~${s}~~`,
+        multilineCode: s => `\`\`\`${s}\`\`\``,
+        inlineCode: s => `\`${s}\``,
+
+        /** Headers */
+        h1: s => `# ${s}\n`,
+        h2: s => `## ${s}\n`,
+        h3: s => `### ${s}\n`,
+        h4: s => `#### ${s}\n`,
+        h5: s => `##### ${s}\n`,
+        h6: s => `###### ${s}\n`,
+
+        /** Horizontal line */
+        hr: _ => `---\n`,
+
+        /** Line breaks */
+        br: _ => `\n\n`,
+
+        /** Quote */
+        quote: s => `\n\n> ${s.replaceAll('<br>', '\n> ')}`,
     };
 
-    public static html2md(content: DocumentFragment): string {
-        const output = [];
-        for (const element of content.children) {
-            const mappedValue = this.mapElementToMarkdown(element);
+    private static replacer(match: string, ...args: Record<string, string>[]): string {
+        const groups: Record<string, string> = args.at(-1)!; // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#making_a_generic_replacer
 
-            output.push(mappedValue);
+        if (groups.linkUrl) {
+            const {linkText, linkUrl, linkTitle} = groups;
+            return `[${linkText}](${linkUrl}`+ (linkTitle ? ` "${linkTitle}"` : '') +`)`;
+        } if (groups.imgSrc) {
+            const {imgSrc, imgAlt, imgTitle} = groups;
+            return `![${imgAlt}](${imgSrc}`+ (imgTitle ? ` "${imgTitle}"` : '') +`)`;
         }
 
-        return output.join('\n');
-    }
+        const [ mapped ] = Object
+            .entries(groups)
+            .map(([group, value]) => value && HtmlMapper.mappers[group]?.(value.trim()))
+            .filter(x => typeof x === 'string');
 
-    private static mapElementToMarkdown(element: Element): string {
-        return this.mappers[element.tagName]?.(element) ?? '<unknown-element>';
-    }
-
-    private static mapChildrenToMarkdown(element: Element): string {
-        return Array.from(element.children).map(child => this.mapElementToMarkdown(child)).join();
-    }
-
-    private static prefixMapper(prefix: string): ElementMapper {
-        return (e: Element) => this.removeLineBreaks(`${prefix} ${this.getJustOwnedText(e)} ${this.mapChildrenToMarkdown(e)}`);
-    }
-
-    private static surroundMapper(token: string): ElementMapper {
-        return (e: Element) => `${token}${this.getJustOwnedText(e)}${this.mapChildrenToMarkdown(e)}${token}`;
-    }
-
-    private static multilinePrefixMapper(prefix: string): ElementMapper {
-        return (e: Element) => this
-            .getJustOwnedText(e)
-            .split('\n')
-            .map((v, i) => `${prefix} ${i === 0 ? this.mapChildrenToMarkdown(e) : ''} ${v.trim()}`)
-            .join('\n');
-    }
-
-    private static linkMapper(): ElementMapper {
-        return (e: Element) => `[${e.textContent}](${e.getAttribute('href')})`;
-    }
-
-    private static imageMapper(): ElementMapper {
-        return (e: Element) => `![${e.getAttribute('alt')}](${e.getAttribute('src')} "${e.getAttribute('title') ?? ''}")`;
-    }
-
-    private static listMapper(ordered = true): ElementMapper {
-        return (e: Element) => Array
-            .from(e.children)
-            .map(e => this.mapElementToMarkdown(e))
-            .map((v, i) => ordered ? `${i + 1}. ${v}` : `- ${v}`)
-            .join('\n');
-    }
-
-    private static getJustOwnedText(element: Element): string {
-        return Array
-            .from(element.childNodes)
-            .filter(x => x.nodeType === Node.TEXT_NODE)
-            .map(x => x.textContent?.trim() ?? '')
-            .join()
-    }
-
-    private static removeLineBreaks(value: string): string {
-        return value.replaceAll('\n', '').trim();
+        return mapped ?? match; // If we do not have rule for some part we leave it as it is
     }
 }
