@@ -14,7 +14,7 @@ export class MarkdownMapper {
         /(\|\s*(?<tableMiddleMiddle>[^|]+))/,
 
         /** Links and images */
-        /!?(\[(?<text>[^(]+)]\((?<url>[^")]+))("(?<title>[^"]+)"|.*)\)/,
+        /!?(\[(?<text>[^(]+)]\((?<url>[^"\s)]+))(\s+"(?<title>[^"]+)"|.*)\)/,
 
         /** Unordered list */
         /((?<!-.+\n)- (?<unorderedListFirstItem>.+)\n)/,
@@ -35,21 +35,21 @@ export class MarkdownMapper {
         /(`(?<inlineCode>[^`\n]*)`)/,
 
         /** Headers */
-        /(^#{6} (?<h6>.+))/,
-        /(^#{5} (?<h5>.+))/,
-        /(^#{4} (?<h4>.+))/,
-        /(^#{3} (?<h3>.+))/,
-        /(^#{2} (?<h2>.+))/,
-        /(^# (?<h1>.+))/,
+        /(^#{6} (?<h6>.+)\n?)/,
+        /(^#{5} (?<h5>.+)\n?)/,
+        /(^#{4} (?<h4>.+)\n?)/,
+        /(^#{3} (?<h3>.+)\n?)/,
+        /(^#{2} (?<h2>.+)\n?)/,
+        /(^# (?<h1>.+)\n?)/,
 
         /** Horizontal line */
         /(?<horizontalLine>^-{3}\n)/,
 
         /** Quotes */
         /(?<=^\n)> (?<singleLineQuote>.+)\n(?!^>)/,
-        /((?<!> .+\n)> (?<quoteFirst>.+))/,
+        /((?<!> .+\n)> (?<quoteFirst>.+)\n?)/,
         /(> (?<quoteLast>.+)(?!.*\n> .+))/,
-        /(> (?<quoteMiddle>.+))/,
+        /(> (?<quoteMiddle>.+)\n?)/,
 
         /** Line breaks */
         /(?<lineBreak>\n{2})/,
@@ -99,8 +99,8 @@ export class MarkdownMapper {
         h1: s => `<h1>${s}</h1>\n`,
         horizontalLine: _ => `<hr>\n`,
         singleLineQuote: s => `<blockquote>\n\t<p>${s}</p>\n</blockquote>\n`,
-        quoteFirst: s => `<blockquote>\n\t<p>${s}`,
-        quoteMiddle: s => s,
+        quoteFirst: s => `<blockquote>\n\t<p>${s}<br>`,
+        quoteMiddle: s => `${s}<br>`,
         quoteLast: s => `${s}</p>\n</blockquote>\n`,
         lineBreak: _ => `<br>\n`,
     };
@@ -115,7 +115,7 @@ export class MarkdownMapper {
 
             return match[0] === '!'
                 ? `\n<img src="${groups.url}" alt="${groups.text}"${titleAttr}/>\n`
-                : `<a href="${groups.url}"${titleAttr}>${groups.text}</a>\n`;
+                : `<a href="${groups.url}"${titleAttr}>${groups.text}</a>`;
         }
 
         const [ mapped ] = Object
