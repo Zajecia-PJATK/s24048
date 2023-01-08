@@ -1,4 +1,4 @@
-type ElementMapper = (e: Element) => string;
+type ElementMapper<T extends Element = Element> = (e: T) => string;
 export class HtmlMapper {
     private static mappers: Record<string, ElementMapper> = {
         'H1': this.prefixMapper('#'),
@@ -19,6 +19,7 @@ export class HtmlMapper {
         'IMG': this.imageMapper(),
         'OL': this.listMapper(),
         'UL': this.listMapper(false),
+        'TABLE': this.tableMapper() as ElementMapper
     };
 
     public static html2md(content: DocumentFragment): string {
@@ -72,12 +73,39 @@ export class HtmlMapper {
             .join('\n');
     }
 
+    private static tableMapper(): ElementMapper<HTMLTableElement> {
+        return table => {
+            const columns = table.querySelectorAll('th');
+            const rows = table.querySelectorAll('tr:has(td)');
+
+            const columnsTexts = Array.from(columns, c => c.textContent ?? '');
+
+            const columnsMd = '| ' + columnsTexts.join(' | ') + ' |';
+            const spacerMd = '|' + Array.from({length: columnsMd.length - 1}).join('-') + '|';
+
+            const columnsWidths = columnsTexts.map(v => v.length);
+
+            const rowsMd = [];
+            for (const row of rows) {
+                const tds = '| ' + Array.from(row.children, (c, i) => c.textContent!.padEnd(columnsWidths[i], ' ')).join(' | ') + ' |';
+                rowsMd.push(tds);
+            }
+
+            return [
+                columnsMd,
+                spacerMd,
+                ...rowsMd,
+                '\n'
+            ].join('\n');
+        };
+    }
+
     private static getJustOwnedText(element: Element): string {
         return Array
             .from(element.childNodes)
             .filter(x => x.nodeType === Node.TEXT_NODE)
             .map(x => x.textContent?.trim() ?? '')
-            .join()
+            .join();
     }
 
     private static removeLineBreaks(value: string): string {
