@@ -9,7 +9,7 @@ declare global {
 
 export class ReactiveTextarea extends HTMLElement {
     private static readonly TAB = '\t';
-    private child: HTMLTextAreaElement;
+    private readonly child: HTMLTextAreaElement;
 
     constructor() {
         super();

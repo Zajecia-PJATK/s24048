@@ -1,24 +1,24 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/node': ^18.11.17
+  '@types/node': ^18.11.18
   '@types/wicg-file-system-access': ^2020.9.5
   gh-pages: ^4.0.0
   github-markdown-css: ^5.1.0
   sass: ^1.57.1
   typescript: ^4.9.4
-  vite: ^4.0.3
+  vite: ^4.0.4
 
 dependencies:
   github-markdown-css: 5.1.0
 
 devDependencies:
-  '@types/node': 18.11.17
+  '@types/node': 18.11.18
   '@types/wicg-file-system-access': 2020.9.5
   gh-pages: 4.0.0
   sass: 1.57.1
   typescript: 4.9.4
-  vite: 4.0.3_gneikmxcpj2uc2xuqjosnroj4e
+  vite: 4.0.4_ovmyjmuuyckt3r3gpaexj2onji
 
 packages:
 
@@ -220,8 +220,8 @@ packages:
     dev: true
     optional: true
 
-  /@types/node/18.11.17:
-    resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}
+  /@types/node/18.11.18:
+    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: true
 
   /@types/wicg-file-system-access/2020.9.5:
@@ -717,8 +717,8 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
-  /vite/4.0.3_gneikmxcpj2uc2xuqjosnroj4e:
-    resolution: {integrity: sha512-HvuNv1RdE7deIfQb8mPk51UKjqptO/4RXZ5yXSAvurd5xOckwS/gg8h9Tky3uSbnjYTgUm0hVCet1cyhKd73ZA==}
+  /vite/4.0.4_ovmyjmuuyckt3r3gpaexj2onji:
+    resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -742,7 +742,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.11.17
+      '@types/node': 18.11.18
       esbuild: 0.16.10
       postcss: 8.4.20
       resolve: 1.22.1
