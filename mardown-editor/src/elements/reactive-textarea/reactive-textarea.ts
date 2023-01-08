@@ -23,6 +23,7 @@ export class ReactiveTextarea extends HTMLElement {
         this.setupImport();
         this.setupExport();
         this.setupTab();
+        this.setupEmptyEndLine();
 
         if (!this.hasAttribute('save')) { return; }
         const key = this.getAttribute('save')!;
@@ -102,6 +103,17 @@ export class ReactiveTextarea extends HTMLElement {
                 this.child.selectionStart = selectionStart + 1;
             }
             this.child.selectionEnd = this.child.selectionStart;
+        });
+    }
+
+    private setupEmptyEndLine(): void {
+        this.child.addEventListener('input', () => {
+            const { value } = this.child;
+
+            if (value.endsWith('\n')) return;
+
+            this.child.value = value + '\n';
+            this.child.dispatchEvent(new InputEvent('input'));
         });
     }
 }
