@@ -112,7 +112,10 @@ export class ReactiveTextarea extends HTMLElement {
 
             if (value.endsWith('\n')) return;
 
+            const selectionStart = this.child.selectionStart;
             this.child.value = value + '\n';
+            this.child.selectionEnd = this.child.selectionStart = selectionStart;
+
             this.child.dispatchEvent(new InputEvent('input'));
         });
     }
