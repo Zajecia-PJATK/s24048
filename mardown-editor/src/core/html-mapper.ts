@@ -1,6 +1,6 @@
-type ElementMapper<T extends Element = Element> = (e: T) => string;
+type ChildNodeMapper<T extends Node | Element = ChildNode | Element> = (e: T) => string;
 export class HtmlMapper {
-    private static mappers: Record<string, ElementMapper> = {
+    private static mappers: Record<string, ChildNodeMapper> = {
         'H1': this.prefixMapper('#'),
         'H2': this.prefixMapper('##'),
         'H3': this.prefixMapper('###'),
@@ -8,24 +8,27 @@ export class HtmlMapper {
         'H5': this.prefixMapper('#####'),
         'H6': this.prefixMapper('######'),
         'P': e => e.textContent ?? '',
+        '#text': e => this.removeLineBreaks(e.textContent ?? ''),
         'BR': () => '',
         'STRONG': this.surroundMapper('**'),
+        'DEL': this.surroundMapper('~~'),
         'EM': this.surroundMapper('*'),
         'BLOCKQUOTE': this.multilinePrefixMapper('>'),
         'LI': e => e.textContent ?? '',
         'CODE': this.surroundMapper('`'),
+        'PRE': this.multilineCodeMapper() as ChildNodeMapper,
         'HR': () => '---',
         'A': this.linkMapper(),
-        'IMG': this.imageMapper(),
-        'OL': this.listMapper(),
-        'UL': this.listMapper(false),
-        'TABLE': this.tableMapper() as ElementMapper
+        'IMG': this.imageMapper() as ChildNodeMapper,
+        'OL': this.listMapper() as ChildNodeMapper,
+        'UL': this.listMapper(false) as ChildNodeMapper,
+        'TABLE': this.tableMapper() as ChildNodeMapper
     };
 
     public static html2md(content: DocumentFragment): string {
         const output = [];
-        for (const element of content.children) {
-            const mappedValue = this.mapElementToMarkdown(element);
+        for (const element of content.childNodes) {
+            const mappedValue = this.mapChildNodeToMarkdown(element);
 
             output.push(mappedValue);
         }
@@ -33,47 +36,47 @@ export class HtmlMapper {
         return output.join('\n');
     }
 
-    private static mapElementToMarkdown(element: Element): string {
-        return this.mappers[element.tagName]?.(element) ?? '<unknown-element>';
+    private static mapChildNodeToMarkdown(element: ChildNode): string {
+        return this.mappers[element.nodeName]?.(element) ?? element.textContent;
     }
 
-    private static mapChildrenToMarkdown(element: Element): string {
-        return Array.from(element.children).map(child => this.mapElementToMarkdown(child)).join();
+    private static mapChildrenToMarkdown(element: ChildNode): string {
+        return Array.from(element.childNodes).map(child => this.mapChildNodeToMarkdown(child)).join();
     }
 
-    private static prefixMapper(prefix: string): ElementMapper {
-        return (e: Element) => this.removeLineBreaks(`${prefix} ${this.getJustOwnedText(e)} ${this.mapChildrenToMarkdown(e)}`);
+    private static prefixMapper(prefix: string): ChildNodeMapper {
+        return (e: ChildNode) => this.removeLineBreaks(`${prefix} ${this.getJustOwnedText(e)} ${this.mapChildrenToMarkdown(e)}`);
     }
 
-    private static surroundMapper(token: string): ElementMapper {
-        return (e: Element) => `${token}${this.getJustOwnedText(e)}${this.mapChildrenToMarkdown(e)}${token}`;
+    private static surroundMapper(token: string): ChildNodeMapper {
+        return (e: ChildNode) => `${token}${this.getJustOwnedText(e)}${this.mapChildrenToMarkdown(e)}${token}`;
     }
 
-    private static multilinePrefixMapper(prefix: string): ElementMapper {
-        return (e: Element) => this
+    private static multilinePrefixMapper(prefix: string): ChildNodeMapper {
+        return (e: ChildNode) => this
             .getJustOwnedText(e)
             .split('\n')
             .map((v, i) => `${prefix} ${i === 0 ? this.mapChildrenToMarkdown(e) : ''} ${v.trim()}`)
             .join('\n');
     }
 
-    private static linkMapper(): ElementMapper {
-        return (e: Element) => `[${e.textContent}](${e.getAttribute('href')})`;
+    private static linkMapper(): ChildNodeMapper {
+        return (e: ChildNode) => `[${e.textContent}](${(<Element> e).getAttribute('href')})`;
     }
 
-    private static imageMapper(): ElementMapper {
+    private static imageMapper(): ChildNodeMapper<Element> {
         return (e: Element) => `![${e.getAttribute('alt')}](${e.getAttribute('src')} "${e.getAttribute('title') ?? ''}")`;
     }
 
-    private static listMapper(ordered = true): ElementMapper {
+    private static listMapper(ordered = true): ChildNodeMapper<Element> {
         return (e: Element) => Array
             .from(e.children)
-            .map(e => this.mapElementToMarkdown(e))
+            .map(e => this.mapChildNodeToMarkdown(e))
             .map((v, i) => ordered ? `${i + 1}. ${v}` : `- ${v}`)
             .join('\n');
     }
 
-    private static tableMapper(): ElementMapper<HTMLTableElement> {
+    private static tableMapper(): ChildNodeMapper<HTMLTableElement> {
         return table => {
             const columns = table.querySelectorAll('th');
             const rows = table.querySelectorAll('tr:has(td)');
@@ -100,7 +103,7 @@ export class HtmlMapper {
         };
     }
 
-    private static getJustOwnedText(element: Element): string {
+    private static getJustOwnedText(element: ChildNode): string {
         return Array
             .from(element.childNodes)
             .filter(x => x.nodeType === Node.TEXT_NODE)
@@ -110,5 +113,9 @@ export class HtmlMapper {
 
     private static removeLineBreaks(value: string): string {
         return value.replaceAll('\n', '').trim();
+    }
+
+    private static multilineCodeMapper() {
+        return (e: Element) => `\`\`\`${e.textContent}\`\`\``;
     }
 }
