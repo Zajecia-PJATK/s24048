@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="preview" type="js.build_tools.npm" nameIsGenerated="true">
+    <package-json value="$PROJECT_DIR$/mardown-editor/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="preview" />
+    </scripts>
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v18.12.1/bin/node" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

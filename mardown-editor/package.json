@@ -1,0 +1,22 @@
+{
+  "name": "quiz",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/wicg-file-system-access": "^2020.9.5",
+    "gh-pages": "^4.0.0",
+    "sass": "^1.57.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "github-markdown-css": "^5.1.0"
+  }
+}

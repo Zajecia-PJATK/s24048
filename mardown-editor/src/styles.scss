@@ -1,0 +1,201 @@
+@import 'colors';
+@import 'github-markdown-css/github-markdown.css';
+@import 'spacing';
+
+@font-face {
+  font-family: 'QuizRegular';
+  src: url('../public/JetBrainsMono-VariableFont_wght.ttf');
+  font-weight: 125 950;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: QuizRegular, serif;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-dark);
+  color: var(--secondary-light);
+  tab-size: 3;
+
+  ::selection {
+    background: var(--secondary-warm);
+    color: var(--primary-cold);
+  }
+
+  a {
+    display: inline-block;
+    background-color: var(--secondary-warm);
+    color: var(--primary-cold);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 48
+  }
+
+  .row {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .drag {
+    margin-left: -6px;
+    cursor: grab;
+    user-select: none;
+  }
+
+  header {
+    scroll-snap-align: start;
+    background-color: var(--secondary);
+    color: var(--primary);
+    height: 100dvh;
+    padding: 0 $space-lg;
+    display: flex;
+    flex-direction: column;
+
+    h1#conversion {
+      text-align: center;
+      font-weight: 900;
+    }
+
+    section.qa {
+      flex-shrink: 1;
+      overflow-y: auto;
+      column-count: 1;
+      column-gap: #{$space-lg * 2};
+
+      @media (min-width: 1024px) {
+        column-count: 2;
+      }
+
+      h2 {
+        margin-top: 0;
+
+        &:not(:first-of-type) {
+          margin-top: #{$space-lg * 2};
+        }
+      }
+    }
+
+    a#scroll-to-panes {
+      margin-top: auto;
+      align-self: center;
+      width: 50px;
+      padding: $space-md;
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  section#panes {
+    gap: $space-lg;
+    padding: $space-lg 0;
+    margin: 0 $space-lg;
+    align-items: stretch;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+
+    @media (min-width: 1024px) {
+      display: grid;
+      scroll-snap-align: start;
+      height: 100dvh;
+      grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 1023px) {
+      display: flex;
+      flex-direction: column;
+
+      reactive-textarea, article.live-preview {
+        scroll-snap-align: start;
+        height: 100dvh;
+        padding: $space-lg 0;
+
+        span.drag {
+          display: none;
+        }
+      }
+    }
+
+    label:has(input[type='file']#import) {
+      display: none;
+    }
+
+    [draggable] {
+      container-type: size;
+
+      &:nth-child(1) {
+        grid-row: 1 / span 2;
+      }
+
+      &.over {
+        outline: 2px red solid;
+
+        * {
+          background-color: transparent !important;
+        }
+
+        &::after {
+          z-index: -1;
+          inset: 0;
+          width: 100cqw;
+          height: 100cqh;
+          content: 'Drop here';
+          position: absolute;
+          display: grid;
+          place-items: center;
+        }
+      }
+    }
+
+    reactive-textarea > textarea {
+      overflow-y: scroll;
+    }
+
+    article.live-preview {
+      display: flex;
+      flex-direction: column;
+      gap: $space-md;
+
+      section#live {
+        height: 100%;
+        overflow: auto;
+        border-radius: $space-sm;
+        border: 1px solid var(--secondary-50);
+        padding:$space-sm;
+      }
+    }
+  }
+
+  footer {
+    user-select: none;
+    bottom: 0;
+    position: sticky;
+    display: grid;
+    place-items: end;
+
+    span.copy {
+      padding: 0 #{2 * $space-lg};
+      color: var(--secondary);
+      background-color: var(--primary);
+      font-weight: 100;
+      opacity: 0.2;
+      font-size: 1ch;
+    }
+  }
+}
